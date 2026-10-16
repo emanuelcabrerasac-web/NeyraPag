@@ -1,75 +1,394 @@
-  <!DOCTYPE html>
-  <html lang="es">
+<!doctype html>
+<html lang="es">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1555a6">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1555a6" />
     <title>NEYRA | Ferretería</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
     <style>
-      body.login-locked .app-shell,body.login-locked #modal-root,body.login-locked #toast{display:none!important}
-      .login-gate{display:none;min-height:100vh;padding:24px;place-items:center;background:#f1f5f8;color:#202d3e;font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
-      body.login-locked .login-gate{display:grid}
-      .login-card{width:min(100%,420px);padding:38px;background:#fff;border:1px solid #dfe7ed;border-radius:12px;box-shadow:0 22px 70px rgba(19,54,100,.12);animation:login-enter .35s ease-out both}
-      .login-brand{display:flex;align-items:center;gap:11px;margin-bottom:38px;color:#202d3e;font-size:20px;font-weight:800;letter-spacing:.5px}
-      .login-mark{display:grid;width:40px;height:40px;place-items:center;border-radius:10px;background:#1555a6;color:#fff;font-size:21px}
-      .login-eyebrow{margin:0 0 8px;color:#1555a6;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
-      .login-card h1{margin:0;font-size:29px;line-height:1.2}
-      .login-copy{margin:10px 0 28px;color:#718095;font-size:15px;line-height:1.5}
-      .login-form{display:grid;gap:17px}
-      .login-field{display:grid;gap:7px;color:#34443a;font-size:13px;font-weight:700}
-      .login-field input{width:100%;height:47px;padding:0 13px;border:1px solid #d7e0e8;border-radius:7px;background:#fff;color:#202d3e;font:inherit;font-weight:400;outline:none}
-      .login-field input:focus{border-color:#1555a6;box-shadow:0 0 0 3px rgba(21,85,166,.12)}
-      .login-submit{height:48px;margin-top:4px;border:0;border-radius:7px;background:#1555a6;color:#fff;font:700 15px system-ui,-apple-system,'Segoe UI',sans-serif;transition:background .2s,transform .2s}
-      .login-submit:hover{background:#10386d;transform:translateY(-1px)}
-      .login-error{min-height:20px;margin:0;color:#b34c44;font-size:13px}
-      @keyframes login-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-      @media(max-width:480px){.login-card{padding:27px 22px}.login-card h1{font-size:25px}}
-      @media(prefers-reduced-motion:reduce){.login-card{animation:none}.login-submit{transition:none}}
-      .module-blocked{display:none!important}
-      .logout-button{height:32px;padding:0 11px;border:1px solid #d9e2ea;border-radius:6px;background:#fff;color:#34443a;font-size:11px;font-weight:700}
-      .logout-button:hover{border-color:#1555a6;color:#1555a6}
-      .admin-panel{margin:14px 0;padding:20px}
-      .admin-panel h2{margin:0 0 5px;font-size:17px}
-      .admin-description{margin:0 0 18px;color:#778597;font-size:13px}
-      .worker-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-      .worker-form label{display:grid;gap:6px;color:#34443a;font-size:12px;font-weight:700}
-      .worker-form input:not([type=checkbox]){height:40px;padding:0 10px;border:1px solid #d7e0e8;border-radius:6px;color:#202d3e}
-      .worker-permissions{grid-column:1/-1;display:flex;gap:10px 17px;flex-wrap:wrap;padding:4px 0}
-      .worker-permissions legend{margin-bottom:9px;color:#34443a;font-size:12px;font-weight:700}
-      .worker-permissions label,.worker-permission{display:flex!important;grid-template-columns:none!important;align-items:center;gap:6px!important;color:#5c6d7e!important;font-size:12px!important;font-weight:500!important}
-      .worker-form button{justify-self:start}
-      .worker-table{min-width:720px}
-      .worker-table td{vertical-align:top}
-      .worker-module-list{display:flex;gap:7px 12px;flex-wrap:wrap;max-width:460px}
-      .worker-permission input,.worker-permissions input{accent-color:#1555a6}
-      .worker-delete{border:1px solid #efd9d6;border-radius:5px;background:#fff;color:#a64039;padding:7px 9px;font-size:11px;font-weight:700}
-      .admin-delete-product{margin-left:6px;border:1px solid #efd9d6;border-radius:5px;background:#fff;color:#a64039;padding:6px 8px;font-size:10px;font-weight:700}
-      .movement-print-controls{display:flex;align-items:end;gap:10px;flex-wrap:wrap;margin:12px 0}
-      .movement-print-controls label{display:grid;gap:5px;color:#5c6d7e;font-size:11px;font-weight:700}
-      .movement-print-controls input{height:36px;padding:0 9px;border:1px solid #d7e0e8;border-radius:6px;background:#fff;color:#202d3e}
-      .bulk-product-button{margin-right:8px}
-      .bulk-csv{width:100%;min-height:190px;padding:12px;border:1px solid #d7e0e8;border-radius:7px;font:13px/1.5 ui-monospace,Consolas,monospace;resize:vertical}
-      .bulk-csv:focus{outline:2px solid rgba(21,85,166,.2);border-color:#1555a6}
-      .bulk-help{margin:7px 0 0;color:#718095;font-size:12px;line-height:1.5}
-      .report-day-control{display:grid;gap:5px;color:#5c6d7e;font-size:11px;font-weight:700}
-      .report-day-control input{height:36px;padding:0 9px;border:1px solid #d7e0e8;border-radius:6px;background:#fff;color:#202d3e}
-      .traceability-retired{display:none!important}
-      @media(max-width:700px){.worker-form{grid-template-columns:1fr}.worker-permissions{grid-column:auto}.logout-button{padding:0 8px;font-size:10px}.movement-print-controls{align-items:stretch}.movement-print-controls label{flex:1;min-width:135px}.bulk-product-button{margin-right:0}.report-day-control{width:100%}}
+      body.login-locked .app-shell,
+      body.login-locked #modal-root,
+      body.login-locked #toast {
+        display: none !important;
+      }
+      .login-gate {
+        display: none;
+        min-height: 100vh;
+        padding: 24px;
+        place-items: center;
+        background: #f1f5f8;
+        color: #202d3e;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      body.login-locked .login-gate {
+        display: grid;
+      }
+      .login-card {
+        width: min(100%, 420px);
+        padding: 38px;
+        background: #fff;
+        border: 1px solid #dfe7ed;
+        border-radius: 12px;
+        box-shadow: 0 22px 70px rgba(19, 54, 100, 0.12);
+        animation: login-enter 0.35s ease-out both;
+      }
+      .login-brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 38px;
+        color: #202d3e;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+      .login-mark {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: 10px;
+        background: #1555a6;
+        color: #fff;
+        font-size: 21px;
+      }
+      .login-eyebrow {
+        margin: 0 0 8px;
+        color: #1555a6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+      .login-card h1 {
+        margin: 0;
+        font-size: 29px;
+        line-height: 1.2;
+      }
+      .login-copy {
+        margin: 10px 0 28px;
+        color: #718095;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      .login-form {
+        display: grid;
+        gap: 17px;
+      }
+      .login-field {
+        display: grid;
+        gap: 7px;
+        color: #34443a;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .login-field input {
+        width: 100%;
+        height: 47px;
+        padding: 0 13px;
+        border: 1px solid #d7e0e8;
+        border-radius: 7px;
+        background: #fff;
+        color: #202d3e;
+        font: inherit;
+        font-weight: 400;
+        outline: none;
+      }
+      .login-field input:focus {
+        border-color: #1555a6;
+        box-shadow: 0 0 0 3px rgba(21, 85, 166, 0.12);
+      }
+      .login-submit {
+        height: 48px;
+        margin-top: 4px;
+        border: 0;
+        border-radius: 7px;
+        background: #1555a6;
+        color: #fff;
+        font:
+          700 15px system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .login-submit:hover {
+        background: #10386d;
+        transform: translateY(-1px);
+      }
+      .login-error {
+        min-height: 20px;
+        margin: 0;
+        color: #b34c44;
+        font-size: 13px;
+      }
+      @keyframes login-enter {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 480px) {
+        .login-card {
+          padding: 27px 22px;
+        }
+        .login-card h1 {
+          font-size: 25px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .login-card {
+          animation: none;
+        }
+        .login-submit {
+          transition: none;
+        }
+      }
+      .module-blocked {
+        display: none !important;
+      }
+      .logout-button {
+        height: 32px;
+        padding: 0 11px;
+        border: 1px solid #d9e2ea;
+        border-radius: 6px;
+        background: #fff;
+        color: #34443a;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .logout-button:hover {
+        border-color: #1555a6;
+        color: #1555a6;
+      }
+      .admin-panel {
+        margin: 14px 0;
+        padding: 20px;
+      }
+      .admin-panel h2 {
+        margin: 0 0 5px;
+        font-size: 17px;
+      }
+      .admin-description {
+        margin: 0 0 18px;
+        color: #778597;
+        font-size: 13px;
+      }
+      .worker-form {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 13px;
+      }
+      .worker-form label {
+        display: grid;
+        gap: 6px;
+        color: #34443a;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .worker-form input:not([type="checkbox"]) {
+        height: 40px;
+        padding: 0 10px;
+        border: 1px solid #d7e0e8;
+        border-radius: 6px;
+        color: #202d3e;
+      }
+      .worker-permissions {
+        grid-column: 1/-1;
+        display: flex;
+        gap: 10px 17px;
+        flex-wrap: wrap;
+        padding: 4px 0;
+      }
+      .worker-permissions legend {
+        margin-bottom: 9px;
+        color: #34443a;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .worker-permissions label,
+      .worker-permission {
+        display: flex !important;
+        grid-template-columns: none !important;
+        align-items: center;
+        gap: 6px !important;
+        color: #5c6d7e !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+      }
+      .worker-form button {
+        justify-self: start;
+      }
+      .worker-table {
+        min-width: 720px;
+      }
+      .worker-table td {
+        vertical-align: top;
+      }
+      .worker-module-list {
+        display: flex;
+        gap: 7px 12px;
+        flex-wrap: wrap;
+        max-width: 460px;
+      }
+      .worker-permission input,
+      .worker-permissions input {
+        accent-color: #1555a6;
+      }
+      .worker-delete {
+        border: 1px solid #efd9d6;
+        border-radius: 5px;
+        background: #fff;
+        color: #a64039;
+        padding: 7px 9px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .admin-delete-product {
+        margin-left: 6px;
+        border: 1px solid #efd9d6;
+        border-radius: 5px;
+        background: #fff;
+        color: #a64039;
+        padding: 6px 8px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .movement-print-controls {
+        display: flex;
+        align-items: end;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+      .movement-print-controls label {
+        display: grid;
+        gap: 5px;
+        color: #5c6d7e;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .movement-print-controls input {
+        height: 36px;
+        padding: 0 9px;
+        border: 1px solid #d7e0e8;
+        border-radius: 6px;
+        background: #fff;
+        color: #202d3e;
+      }
+      .bulk-product-button {
+        margin-right: 8px;
+      }
+      .bulk-csv {
+        width: 100%;
+        min-height: 190px;
+        padding: 12px;
+        border: 1px solid #d7e0e8;
+        border-radius: 7px;
+        font:
+          13px/1.5 ui-monospace,
+          Consolas,
+          monospace;
+        resize: vertical;
+      }
+      .bulk-csv:focus {
+        outline: 2px solid rgba(21, 85, 166, 0.2);
+        border-color: #1555a6;
+      }
+      .bulk-help {
+        margin: 7px 0 0;
+        color: #718095;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .report-day-control {
+        display: grid;
+        gap: 5px;
+        color: #5c6d7e;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .report-day-control input {
+        height: 36px;
+        padding: 0 9px;
+        border: 1px solid #d7e0e8;
+        border-radius: 6px;
+        background: #fff;
+        color: #202d3e;
+      }
+      .traceability-retired {
+        display: none !important;
+      }
+      @media (max-width: 700px) {
+        .worker-form {
+          grid-template-columns: 1fr;
+        }
+        .worker-permissions {
+          grid-column: auto;
+        }
+        .logout-button {
+          padding: 0 8px;
+          font-size: 10px;
+        }
+        .movement-print-controls {
+          align-items: stretch;
+        }
+        .movement-print-controls label {
+          flex: 1;
+          min-width: 135px;
+        }
+        .bulk-product-button {
+          margin-right: 0;
+        }
+        .report-day-control {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body class="login-locked">
     <main class="login-gate" id="login-gate">
       <section class="login-card" aria-labelledby="login-title">
-        <div class="login-brand"><span class="login-mark" aria-hidden="true">N</span><span>NEYRA</span></div>
+        <div class="login-brand">
+          <span class="login-mark" aria-hidden="true">N</span><span>NEYRA</span>
+        </div>
         <p class="login-eyebrow">Acceso al sistema</p>
         <h1 id="login-title">Bienvenido</h1>
         <p class="login-copy">Ingresa tus credenciales para continuar.</p>
         <form class="login-form" id="login-form">
-          <label class="login-field" for="login-username">Usuario<input id="login-username" name="username" autocomplete="username" required></label>
-          <label class="login-field" for="login-password">Contraseña<input id="login-password" name="password" type="password" autocomplete="current-password" required></label>
-          <p class="login-error" id="login-error" role="alert" aria-live="polite"></p>
+          <label class="login-field" for="login-username"
+            >Usuario<input
+              id="login-username"
+              name="username"
+              autocomplete="username"
+              required
+          /></label>
+          <label class="login-field" for="login-password"
+            >Contraseña<input
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+          /></label>
+          <p
+            class="login-error"
+            id="login-error"
+            role="alert"
+            aria-live="polite"
+          ></p>
           <button class="login-submit" type="submit">Ingresar</button>
         </form>
       </section>
@@ -77,119 +396,805 @@
     <div class="app-shell">
       <main class="workspace">
         <header class="topbar">
-          <div class="brand brand-mobile"><span class="brand-mark">N</span><span>NEYRA</span></div>
-          <div class="breadcrumb"><span>Operaciones</span><span class="breadcrumb-divider">/</span><strong id="breadcrumb-current">Resumen</strong></div>
-          <div class="topbar-right"><span class="live-dot"></span><span>Guardado en este navegador</span><button class="avatar" aria-label="Perfil">N</button><button type="button" class="logout-button" id="logout-button">Cerrar sesión</button></div>
+          <div class="brand brand-mobile">
+            <span class="brand-mark">N</span><span>NEYRA</span>
+          </div>
+          <div class="breadcrumb">
+            <span>Operaciones</span><span class="breadcrumb-divider">/</span
+            ><strong id="breadcrumb-current">Resumen</strong>
+          </div>
+          <div class="topbar-right">
+            <span class="live-dot"></span><span>Guardado en este navegador</span
+            ><button class="avatar" aria-label="Perfil">N</button
+            ><button type="button" class="logout-button" id="export-backup">
+              Exportar respaldo</button
+            ><button type="button" class="logout-button" id="import-backup">
+              Importar respaldo</button
+            ><input type="file" id="import-file" accept=".json" hidden
+            /><button type="button" class="logout-button" id="logout-button">
+              Cerrar sesión
+            </button>
+          </div>
         </header>
 
-        <section class="view active" id="view-dashboard" data-module="dashboard" aria-labelledby="page-title">
+        <section
+          class="view active"
+          id="view-dashboard"
+          data-module="dashboard"
+          aria-labelledby="page-title"
+        >
           <div class="page-heading">
-            <div><p class="eyebrow" id="today-label"></p><h1 id="page-title" tabindex="-1">Stock y ventas, bajo control.</h1><p class="heading-copy">Todo lo que tu ferretería necesita, en un solo lugar.</p></div>
-            <button class="button button-dark" data-action="new-movement"><span class="button-icon">＋</span> Registrar movimiento</button>
+            <div>
+              <p class="eyebrow" id="today-label"></p>
+              <h1 id="page-title" tabindex="-1">
+                Stock y ventas, bajo control.
+              </h1>
+              <p class="heading-copy">
+                Todo lo que tu ferretería necesita, en un solo lugar.
+              </p>
+            </div>
+            <button class="button button-dark" data-action="new-movement">
+              <span class="button-icon">＋</span> Registrar movimiento
+            </button>
           </div>
 
           <section class="hero-banner" aria-label="Resumen de actividad">
-            <div class="hero-copy"><span class="hero-kicker"><span class="live-dot light"></span> GESTIÓN DE FERRETERÍA</span><h2>Herramientas listas.<br><span>Cada pieza en su lugar.</span></h2><p>Inventario, ventas y movimientos de NEYRA.</p></div>
-            <div class="hero-visual" aria-hidden="true"><div class="hero-ring ring-one"></div><div class="hero-ring ring-two"></div><div class="hero-orbit"></div><div class="hero-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="hero-visual-label">STOCK<br>EN MOVIMIENTO</span></div>
-            <div class="hero-foot"><span>RESUMEN DE HOY</span><span id="banner-date">29 SEP 2026</span></div>
+            <div class="hero-copy">
+              <span class="hero-kicker"
+                ><span class="live-dot light"></span> GESTIÓN DE
+                FERRETERÍA</span
+              >
+              <h2>
+                Herramientas listas.<br /><span>Cada pieza en su lugar.</span>
+              </h2>
+              <p>Inventario, ventas y movimientos de NEYRA.</p>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+              <div class="hero-ring ring-one"></div>
+              <div class="hero-ring ring-two"></div>
+              <div class="hero-orbit"></div>
+              <div class="hero-bars">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+                ><i></i><i></i><i></i>
+              </div>
+              <span class="hero-visual-label">STOCK<br />EN MOVIMIENTO</span>
+            </div>
+            <div class="hero-foot">
+              <span>RESUMEN DE HOY</span
+              ><span id="banner-date">29 SEP 2026</span>
+            </div>
           </section>
 
-          <div class="section-heading"><div><p class="eyebrow">EN TIEMPO REAL</p><h2>Resumen de actividad</h2></div><button class="text-button" data-view="reports">Ver reportes <span>↗</span></button></div>
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">EN TIEMPO REAL</p>
+              <h2>Resumen de actividad</h2>
+            </div>
+            <button class="text-button" data-view="reports">
+              Ver reportes <span>↗</span>
+            </button>
+          </div>
           <div class="stats-grid" id="dashboard-stats"></div>
 
           <div class="dashboard-bottom">
-            <section class="panel stock-panel"><div class="panel-heading"><div><p class="eyebrow">ATENCIÓN</p><h3>Stock bajo</h3></div><span class="count-badge" id="low-stock-count">0</span></div><div id="low-stock-list" class="low-stock-list"></div></section>
-            <section class="panel recent-panel"><div class="panel-heading"><div><p class="eyebrow">MOVIMIENTOS</p><h3>Últimos movimientos</h3></div><button class="text-button" data-view="movements">Ver movimientos <span>↗</span></button></div><div id="recent-movements" class="recent-movements"></div></section>
+            <section class="panel stock-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">ATENCIÓN</p>
+                  <h3>Stock bajo</h3>
+                </div>
+                <span class="count-badge" id="low-stock-count">0</span>
+              </div>
+              <div id="low-stock-list" class="low-stock-list"></div>
+            </section>
+            <section class="panel recent-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">MOVIMIENTOS</p>
+                  <h3>Últimos movimientos</h3>
+                </div>
+                <button class="text-button" data-view="movements">
+                  Ver movimientos <span>↗</span>
+                </button>
+              </div>
+              <div id="recent-movements" class="recent-movements"></div>
+            </section>
           </div>
         </section>
 
-        <section class="view" id="view-inventory" data-module="inventory" aria-labelledby="inventory-title">
-          <div class="page-heading"><div><p class="eyebrow">CATÁLOGO Y EXISTENCIAS</p><h1 id="inventory-title">Inventario</h1><p class="heading-copy">Consulta niveles, precios y estado de cada producto.</p></div><div class="heading-actions"><button class="button button-outline bulk-product-button" id="bulk-import-products" type="button">Cargar varios</button><button class="button button-dark" data-action="new-product"><span class="button-icon">＋</span> Añadir producto</button></div></div>
-          <div class="toolbar"><label class="search-field"><span>⌕</span><input id="inventory-search" type="search" placeholder="Buscar producto o SKU" aria-label="Buscar en inventario"></label><select id="inventory-filter" aria-label="Filtrar inventario"><option value="all">Todos los productos</option><option value="low">Stock bajo</option><option value="out">Agotados</option></select><span class="toolbar-count" id="inventory-count"></span></div>
-          <section class="table-panel"><div class="table-scroll"><table><thead><tr><th>PRODUCTO</th><th>SKU</th><th>CATEGORÍA</th><th>PRECIO</th><th>EXISTENCIAS</th><th>ESTADO</th><th></th></tr></thead><tbody id="inventory-rows"></tbody></table></div><div class="empty-state hidden" id="inventory-empty">No hay productos que coincidan con esta búsqueda.</div></section>
+        <section
+          class="view"
+          id="view-inventory"
+          data-module="inventory"
+          aria-labelledby="inventory-title"
+        >
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">CATÁLOGO Y EXISTENCIAS</p>
+              <h1 id="inventory-title">Inventario</h1>
+              <p class="heading-copy">
+                Consulta niveles, precios y estado de cada producto.
+              </p>
+            </div>
+            <div class="heading-actions">
+              <button
+                class="button button-outline bulk-product-button"
+                id="bulk-import-products"
+                type="button"
+              >
+                Cargar varios</button
+              ><button class="button button-dark" data-action="new-product">
+                <span class="button-icon">＋</span> Añadir producto
+              </button>
+            </div>
+          </div>
+          <div class="toolbar">
+            <label class="search-field"
+              ><span>⌕</span
+              ><input
+                id="inventory-search"
+                type="search"
+                placeholder="Buscar producto o SKU"
+                aria-label="Buscar en inventario" /></label
+            ><select id="inventory-filter" aria-label="Filtrar inventario">
+              <option value="all">Todos los productos</option>
+              <option value="low">Stock bajo</option>
+              <option value="out">Agotados</option></select
+            ><span class="toolbar-count" id="inventory-count"></span>
+          </div>
+          <section class="table-panel">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>PRODUCTO</th>
+                    <th>SKU</th>
+                    <th>CATEGORÍA</th>
+                    <th>PRECIO</th>
+                    <th>EXISTENCIAS</th>
+                    <th>ESTADO</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="inventory-rows"></tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="inventory-empty">
+              No hay productos que coincidan con esta búsqueda.
+            </div>
+          </section>
         </section>
 
-        <section class="view" id="view-movements" data-module="movements" aria-labelledby="movements-title">
-          <div class="page-heading"><div><p class="eyebrow">ENTRADAS Y SALIDAS</p><h1 id="movements-title">Movimientos</h1><p class="heading-copy">Cada ajuste queda registrado con fecha y detalle.</p></div><button class="button button-dark" data-action="new-movement"><span class="button-icon">＋</span> Registrar movimiento</button></div>
-          <div class="toolbar"><label class="search-field"><span>⌕</span><input id="movement-search" type="search" placeholder="Buscar producto o referencia" aria-label="Buscar movimientos"></label><select id="movement-filter" aria-label="Filtrar por tipo"><option value="all">Todos los tipos</option><option value="Entrada">Entradas</option><option value="Salida">Salidas</option><option value="Venta">Ventas</option></select><span class="toolbar-count" id="movement-count"></span></div>
-          <div class="movement-print-controls"><label for="movement-print-start">Desde<input id="movement-print-start" type="date"></label><label for="movement-print-end">Hasta<input id="movement-print-end" type="date"></label><button class="button button-outline" id="print-movements" type="button">Imprimir movimientos</button></div>
-          <section class="table-panel"><div class="table-scroll"><table><thead><tr><th>FECHA Y HORA</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>REFERENCIA</th><th>DETALLE</th><th></th></tr></thead><tbody id="movement-rows"></tbody></table></div><div class="empty-state hidden" id="movement-empty">Todavía no hay movimientos registrados.</div></section>
+        <section
+          class="view"
+          id="view-movements"
+          data-module="movements"
+          aria-labelledby="movements-title"
+        >
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">ENTRADAS Y SALIDAS</p>
+              <h1 id="movements-title">Movimientos</h1>
+              <p class="heading-copy">
+                Cada ajuste queda registrado con fecha y detalle.
+              </p>
+            </div>
+            <button class="button button-dark" data-action="new-movement">
+              <span class="button-icon">＋</span> Registrar movimiento
+            </button>
+          </div>
+          <div class="toolbar">
+            <label class="search-field"
+              ><span>⌕</span
+              ><input
+                id="movement-search"
+                type="search"
+                placeholder="Buscar producto o referencia"
+                aria-label="Buscar movimientos" /></label
+            ><select id="movement-filter" aria-label="Filtrar por tipo">
+              <option value="all">Todos los tipos</option>
+              <option value="Entrada">Entradas</option>
+              <option value="Salida">Salidas</option>
+              <option value="Venta">Ventas</option></select
+            ><span class="toolbar-count" id="movement-count"></span>
+          </div>
+          <div class="movement-print-controls">
+            <label for="movement-print-start"
+              >Desde<input id="movement-print-start" type="date" /></label
+            ><label for="movement-print-end"
+              >Hasta<input id="movement-print-end" type="date" /></label
+            ><button
+              class="button button-outline"
+              id="print-movements"
+              type="button"
+            >
+              Imprimir movimientos
+            </button>
+          </div>
+          <section class="table-panel">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>FECHA Y HORA</th>
+                    <th>PRODUCTO</th>
+                    <th>TIPO</th>
+                    <th>CANTIDAD</th>
+                    <th>REFERENCIA</th>
+                    <th>DETALLE</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="movement-rows"></tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="movement-empty">
+              Todavía no hay movimientos registrados.
+            </div>
+          </section>
         </section>
 
-        <section class="view" id="view-sales" data-module="sales" aria-labelledby="sales-title">
-          <div class="page-heading"><div><p class="eyebrow">REGISTRO COMERCIAL</p><h1 id="sales-title">Ventas</h1><p class="heading-copy">Registra ventas, emite facturas y controla el historial comercial.</p></div><div class="heading-actions"><button class="button button-outline" id="new-invoice"><span class="button-icon">＋</span> Emitir factura</button><button class="button button-dark" data-action="new-sale"><span class="button-icon">＋</span> Registrar venta</button></div></div>
+        <section
+          class="view"
+          id="view-sales"
+          data-module="sales"
+          aria-labelledby="sales-title"
+        >
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">REGISTRO COMERCIAL</p>
+              <h1 id="sales-title">Ventas</h1>
+              <p class="heading-copy">
+                Registra ventas, emite facturas y controla el historial
+                comercial.
+              </p>
+            </div>
+            <div class="heading-actions">
+              <button class="button button-outline" id="new-invoice">
+                <span class="button-icon">＋</span> Emitir factura</button
+              ><button class="button button-dark" data-action="new-sale">
+                <span class="button-icon">＋</span> Registrar venta
+              </button>
+            </div>
+          </div>
           <div class="stats-grid compact-stats" id="sales-stats"></div>
-          <section class="table-panel sales-table-panel"><div class="panel-heading"><div><p class="eyebrow">OPERACIONES</p><h3>Historial de ventas</h3></div><label class="search-field compact-search"><span>⌕</span><input id="sales-search" type="search" placeholder="Buscar venta" aria-label="Buscar ventas"></label></div><div class="table-scroll"><table><thead><tr><th>FECHA Y HORA</th><th>VENTA</th><th>PRODUCTO</th><th>UNIDADES</th><th>PRECIO UNITARIO</th><th>TOTAL</th></tr></thead><tbody id="sales-rows"></tbody></table></div><div class="empty-state hidden" id="sales-empty">Las ventas que registres aparecerán aquí.</div></section>
-          <section class="table-panel invoice-table-panel"><div class="panel-heading"><div><p class="eyebrow">DOCUMENTOS EMITIDOS</p><h3>Facturas</h3></div><span class="toolbar-count" id="invoice-count"></span></div><div class="table-scroll"><table><thead><tr><th>FOLIO</th><th>FECHA</th><th>CLIENTE</th><th>ARTÍCULOS</th><th>TOTAL</th><th></th></tr></thead><tbody id="invoice-rows"></tbody></table></div><div class="empty-state hidden" id="invoice-empty">Las facturas emitidas aparecerán aquí.</div></section>
-          <p class="invoice-legal-note">Documento comercial. Para emitir factura tributaria electrónica se requiere integrar los datos legales de la empresa y el servicio del SII.</p>
+          <section class="table-panel sales-table-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">OPERACIONES</p>
+                <h3>Historial de ventas</h3>
+              </div>
+              <label class="search-field compact-search"
+                ><span>⌕</span
+                ><input
+                  id="sales-search"
+                  type="search"
+                  placeholder="Buscar venta"
+                  aria-label="Buscar ventas"
+              /></label>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>FECHA Y HORA</th>
+                    <th>VENTA</th>
+                    <th>PRODUCTO</th>
+                    <th>UNIDADES</th>
+                    <th>PRECIO UNITARIO</th>
+                    <th>TOTAL</th>
+                  </tr>
+                </thead>
+                <tbody id="sales-rows"></tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="sales-empty">
+              Las ventas que registres aparecerán aquí.
+            </div>
+          </section>
+          <section class="table-panel invoice-table-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">DOCUMENTOS EMITIDOS</p>
+                <h3>Facturas</h3>
+              </div>
+              <span class="toolbar-count" id="invoice-count"></span>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>FOLIO</th>
+                    <th>FECHA</th>
+                    <th>CLIENTE</th>
+                    <th>ARTÍCULOS</th>
+                    <th>TOTAL</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="invoice-rows"></tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="invoice-empty">
+              Las facturas emitidas aparecerán aquí.
+            </div>
+          </section>
+          <p class="invoice-legal-note">
+            Documento comercial. Para emitir factura tributaria electrónica se
+            requiere integrar los datos legales de la empresa y el servicio del
+            SII.
+          </p>
         </section>
 
-          <section class="view traceability-retired" id="view-history" data-module="retired-history" aria-labelledby="history-title" aria-hidden="true">
-          <div class="page-heading"><div><p class="eyebrow">REGISTRO COMPLETO</p><h1 id="history-title">Trazabilidad</h1><p class="heading-copy">El historial unificado de entradas, salidas y ventas.</p></div><button class="button button-outline" data-view="reports">Generar reporte <span>↗</span></button></div>
+        <section
+          class="view traceability-retired"
+          id="view-history"
+          data-module="retired-history"
+          aria-labelledby="history-title"
+          aria-hidden="true"
+        >
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">REGISTRO COMPLETO</p>
+              <h1 id="history-title">Trazabilidad</h1>
+              <p class="heading-copy">
+                El historial unificado de entradas, salidas y ventas.
+              </p>
+            </div>
+            <button class="button button-outline" data-view="reports">
+              Generar reporte <span>↗</span>
+            </button>
+          </div>
           <div class="history-summary" id="history-summary"></div>
-          <div class="toolbar"><label class="search-field"><span>⌕</span><input id="history-search" type="search" placeholder="Producto, referencia o detalle" aria-label="Buscar en el historial"></label><select id="history-filter" aria-label="Filtrar historial"><option value="all">Todos los movimientos</option><option value="Entrada">Entradas</option><option value="Salida">Salidas</option><option value="Venta">Ventas</option></select><span class="toolbar-count" id="history-count"></span></div>
-          <section class="table-panel"><div class="table-scroll"><table><thead><tr><th>FECHA Y HORA</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>REFERENCIA</th><th>DETALLE</th></tr></thead><tbody id="history-rows"></tbody></table></div><div class="empty-state hidden" id="history-empty">No hay registros que coincidan.</div></section>
+          <div class="toolbar">
+            <label class="search-field"
+              ><span>⌕</span
+              ><input
+                id="history-search"
+                type="search"
+                placeholder="Producto, referencia o detalle"
+                aria-label="Buscar en el historial" /></label
+            ><select id="history-filter" aria-label="Filtrar historial">
+              <option value="all">Todos los movimientos</option>
+              <option value="Entrada">Entradas</option>
+              <option value="Salida">Salidas</option>
+              <option value="Venta">Ventas</option></select
+            ><span class="toolbar-count" id="history-count"></span>
+          </div>
+          <section class="table-panel">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>FECHA Y HORA</th>
+                    <th>PRODUCTO</th>
+                    <th>TIPO</th>
+                    <th>CANTIDAD</th>
+                    <th>REFERENCIA</th>
+                    <th>DETALLE</th>
+                  </tr>
+                </thead>
+                <tbody id="history-rows"></tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="history-empty">
+              No hay registros que coincidan.
+            </div>
+          </section>
         </section>
 
-        <section class="view" id="view-reports" data-module="reports" aria-labelledby="reports-title">
-          <div class="page-heading"><div><p class="eyebrow">ANÁLISIS Y DOCUMENTOS</p><h1 id="reports-title">Reportes</h1><p class="heading-copy">Una lectura rápida del período y un documento listo para guardar.</p></div><div class="heading-actions"><label class="report-day-control" for="report-print-day">Día del reporte PDF<input id="report-print-day" type="date"></label><button class="button button-dark" id="print-report"><span class="button-icon">↓</span> Descargar PDF</button></div></div>
-          <div class="report-range"><div><p class="eyebrow">PERÍODO DEL REPORTE</p><h2 id="report-range-title">Resumen completo</h2><p id="report-range-label">Desde el primer registro hasta hoy · <span id="report-generated-date"></span></p></div><span class="report-mark">N<span>.</span></span></div>
-          <div class="report-controls panel"><div class="report-controls-group"><label for="report-period">Tipo de reporte</label><select id="report-period"><option value="daily">Diario</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option><option value="yearly">Anual</option><option value="custom">Personalizado</option></select></div><div class="report-controls-group"><label for="report-start">Desde</label><input id="report-start" type="date"></div><div class="report-controls-group"><label for="report-end">Hasta</label><input id="report-end" type="date"></div><button class="button button-dark" id="new-expense"><span class="button-icon">＋</span> Registrar gasto</button></div>
+        <section
+          class="view"
+          id="view-reports"
+          data-module="reports"
+          aria-labelledby="reports-title"
+        >
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">ANÁLISIS Y DOCUMENTOS</p>
+              <h1 id="reports-title">Reportes</h1>
+              <p class="heading-copy">
+                Una lectura rápida del período y un documento listo para
+                guardar.
+              </p>
+            </div>
+            <div class="heading-actions">
+              <label class="report-day-control" for="report-print-day"
+                >Día del reporte PDF<input
+                  id="report-print-day"
+                  type="date" /></label
+              ><button class="button button-dark" id="print-report">
+                <span class="button-icon">↓</span> Descargar PDF
+              </button>
+            </div>
+          </div>
+          <div class="report-range">
+            <div>
+              <p class="eyebrow">PERÍODO DEL REPORTE</p>
+              <h2 id="report-range-title">Resumen completo</h2>
+              <p id="report-range-label">
+                Desde el primer registro hasta hoy ·
+                <span id="report-generated-date"></span>
+              </p>
+            </div>
+            <span class="report-mark">N<span>.</span></span>
+          </div>
+          <div class="report-controls panel">
+            <div class="report-controls-group">
+              <label for="report-period">Tipo de reporte</label
+              ><select id="report-period">
+                <option value="daily">Diario</option>
+                <option value="weekly">Semanal</option>
+                <option value="monthly">Mensual</option>
+                <option value="yearly">Anual</option>
+                <option value="custom">Personalizado</option>
+              </select>
+            </div>
+            <div class="report-controls-group">
+              <label for="report-start">Desde</label
+              ><input id="report-start" type="date" />
+            </div>
+            <div class="report-controls-group">
+              <label for="report-end">Hasta</label
+              ><input id="report-end" type="date" />
+            </div>
+            <button class="button button-dark" id="new-expense">
+              <span class="button-icon">＋</span> Registrar gasto
+            </button>
+          </div>
           <div class="stats-grid" id="report-stats"></div>
-          <div class="chart-panel panel"><div class="panel-heading"><div><p class="eyebrow">EVOLUCIÓN FINANCIERA</p><h3>Ventas, gastos y utilidad</h3></div><span class="currency-tag">S/</span></div><div class="chart-legend"><span><i class="legend-dot revenue"></i>Ventas</span><span><i class="legend-dot expense"></i>Gastos</span><span><i class="legend-dot profit"></i>Utilidad</span></div><div class="chart-wrap"><svg id="financial-chart" viewBox="0 0 760 260" role="img" aria-label="Gráfico de ventas, gastos y utilidad"></svg></div></div>
-          <div class="report-grid"><section class="panel"><div class="panel-heading"><div><p class="eyebrow">VALOR EN BODEGA</p><h3>Productos con más existencias</h3></div></div><div id="report-products" class="report-products"></div></section><section class="panel"><div class="panel-heading"><div><p class="eyebrow">REGISTRO</p><h3>Actividad reciente</h3></div></div><div id="report-activity" class="recent-movements"></div></section></div>
-          <p class="report-note">Los reportes se generan con los datos guardados en este dispositivo.</p>
+          <div class="chart-panel panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">EVOLUCIÓN FINANCIERA</p>
+                <h3>Ventas, gastos y utilidad</h3>
+              </div>
+              <span class="currency-tag">S/</span>
+            </div>
+            <div class="chart-legend">
+              <span><i class="legend-dot revenue"></i>Ventas</span
+              ><span><i class="legend-dot expense"></i>Gastos</span
+              ><span><i class="legend-dot profit"></i>Utilidad</span>
+            </div>
+            <div class="chart-wrap">
+              <svg
+                id="financial-chart"
+                viewBox="0 0 760 260"
+                role="img"
+                aria-label="Gráfico de ventas, gastos y utilidad"
+              ></svg>
+            </div>
+          </div>
+          <div class="report-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">VALOR EN BODEGA</p>
+                  <h3>Productos con más existencias</h3>
+                </div>
+              </div>
+              <div id="report-products" class="report-products"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">REGISTRO</p>
+                  <h3>Actividad reciente</h3>
+                </div>
+              </div>
+              <div id="report-activity" class="recent-movements"></div>
+            </section>
+          </div>
+          <p class="report-note">
+            Los reportes se generan con los datos guardados en este dispositivo.
+          </p>
         </section>
-        <section class="view" id="view-admin" data-module="admin" aria-labelledby="admin-title">
-          <div class="page-heading"><div><p class="eyebrow">CONTROL DE ACCESOS</p><h1 id="admin-title">Administrador y trabajadores</h1><p class="heading-copy">Crea trabajadores y decide qué módulos puede utilizar cada uno.</p></div></div>
+        <section
+          class="view"
+          id="view-admin"
+          data-module="admin"
+          aria-labelledby="admin-title"
+        >
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">CONTROL DE ACCESOS</p>
+              <h1 id="admin-title">Administrador y trabajadores</h1>
+              <p class="heading-copy">
+                Crea trabajadores y decide qué módulos puede utilizar cada uno.
+              </p>
+            </div>
+          </div>
           <section class="panel admin-panel">
             <h2>Crear trabajador</h2>
-            <p class="admin-description">Asigna un usuario, contraseña y uno o más módulos.</p>
+            <p class="admin-description">
+              Asigna un usuario, contraseña y uno o más módulos.
+            </p>
             <form class="worker-form" id="worker-form">
-              <label for="worker-name">Nombre<input id="worker-name" name="name" autocomplete="off" required></label>
-              <label for="worker-username">Usuario<input id="worker-username" name="username" autocomplete="off" required></label>
-              <label for="worker-password">Contraseña<input id="worker-password" name="password" type="password" autocomplete="new-password" required></label>
-              <fieldset class="worker-permissions"><legend>Módulos autorizados</legend>
-                <label><input type="checkbox" name="modules" value="dashboard"> Resumen</label>
-                <label><input type="checkbox" name="modules" value="inventory"> Inventario</label>
-                <label><input type="checkbox" name="modules" value="movements"> Movimientos</label>
-                <label><input type="checkbox" name="modules" value="sales"> Ventas</label>
-                <label><input type="checkbox" name="modules" value="reports"> Reportes</label>
+              <label for="worker-name"
+                >Nombre<input
+                  id="worker-name"
+                  name="name"
+                  autocomplete="off"
+                  required
+              /></label>
+              <label for="worker-username"
+                >Usuario<input
+                  id="worker-username"
+                  name="username"
+                  autocomplete="off"
+                  required
+              /></label>
+              <label for="worker-password"
+                >Contraseña<input
+                  id="worker-password"
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                  required
+              /></label>
+              <fieldset class="worker-permissions">
+                <legend>Módulos autorizados</legend>
+                <label
+                  ><input type="checkbox" name="modules" value="dashboard" />
+                  Resumen</label
+                >
+                <label
+                  ><input type="checkbox" name="modules" value="inventory" />
+                  Inventario</label
+                >
+                <label
+                  ><input type="checkbox" name="modules" value="movements" />
+                  Movimientos</label
+                >
+                <label
+                  ><input type="checkbox" name="modules" value="sales" />
+                  Ventas</label
+                >
+                <label
+                  ><input type="checkbox" name="modules" value="reports" />
+                  Reportes</label
+                >
               </fieldset>
-              <button class="button button-dark" type="submit">Crear trabajador</button>
+              <button class="button button-dark" type="submit">
+                Crear trabajador
+              </button>
             </form>
           </section>
           <section class="table-panel admin-panel">
-            <div class="panel-heading"><div><p class="eyebrow">CUENTAS DEL NEGOCIO</p><h3>Trabajadores y permisos</h3></div><span class="toolbar-count" id="worker-count">0 trabajadores</span></div>
-            <div class="table-scroll"><table class="worker-table"><thead><tr><th>NOMBRE</th><th>USUARIO</th><th>MÓDULOS PERMITIDOS</th><th></th></tr></thead><tbody id="worker-rows"></tbody></table></div>
-            <div class="empty-state" id="worker-empty">Aún no has creado trabajadores.</div>
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">CUENTAS DEL NEGOCIO</p>
+                <h3>Trabajadores y permisos</h3>
+              </div>
+              <span class="toolbar-count" id="worker-count"
+                >0 trabajadores</span
+              >
+            </div>
+            <div class="table-scroll">
+              <table class="worker-table">
+                <thead>
+                  <tr>
+                    <th>NOMBRE</th>
+                    <th>USUARIO</th>
+                    <th>MÓDULOS PERMITIDOS</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="worker-rows"></tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="worker-empty">
+              Aún no has creado trabajadores.
+            </div>
           </section>
         </section>
-        <footer class="workspace-footer"><span>NEYRA FERRETERÍA <span class="footer-separator">·</span> STOCK Y VENTAS</span><span id="footer-clock"></span></footer>
+        <footer class="workspace-footer">
+          <span
+            >NEYRA FERRETERÍA <span class="footer-separator">·</span> STOCK Y
+            VENTAS</span
+          ><span id="footer-clock"></span>
+        </footer>
       </main>
 
-      <aside class="side-nav" aria-label="Navegación principal"><div class="brand"><span class="brand-mark">N</span><span>NEYRA</span></div><div class="nav-caption">ESPACIO DE TRABAJO</div><nav><button class="nav-link active" data-view="dashboard"><span class="nav-icon">⌂</span><span>Resumen</span><span class="nav-active-mark"></span></button><button class="nav-link" data-view="inventory"><span class="nav-icon">▦</span><span>Inventario</span><span class="nav-active-mark"></span></button><button class="nav-link" data-view="movements"><span class="nav-icon">⇄</span><span>Movimientos</span><span class="nav-active-mark"></span></button><button class="nav-link" data-view="sales"><span class="nav-icon">↗</span><span>Ventas</span><span class="nav-active-mark"></span></button><button class="nav-link" data-view="history"><span class="nav-icon">◷</span><span>Trazabilidad</span><span class="nav-active-mark"></span></button></nav><div class="nav-caption nav-caption-lower">GESTIÓN</div><nav><button class="nav-link" data-view="reports"><span class="nav-icon">▤</span><span>Reportes</span><span class="nav-active-mark"></span></button><button class="nav-link module-blocked" data-view="admin" id="admin-nav-link"><span class="nav-icon">⚙</span><span>Administración</span><span class="nav-active-mark"></span></button></nav><div class="nav-bottom"><div class="nav-user"><span class="user-avatar">N</span><span><strong id="session-user-name">Mi negocio</strong><small id="session-user-role">Sin sesión</small></span></div><div class="nav-version">NEYRA <span>·</span> VERSIÓN 1.0</div></div></aside>
+      <aside class="side-nav" aria-label="Navegación principal">
+        <div class="brand">
+          <span class="brand-mark">N</span><span>NEYRA</span>
+        </div>
+        <div class="nav-caption">ESPACIO DE TRABAJO</div>
+        <nav>
+          <button class="nav-link active" data-view="dashboard">
+            <span class="nav-icon">⌂</span><span>Resumen</span
+            ><span class="nav-active-mark"></span></button
+          ><button class="nav-link" data-view="inventory">
+            <span class="nav-icon">▦</span><span>Inventario</span
+            ><span class="nav-active-mark"></span></button
+          ><button class="nav-link" data-view="movements">
+            <span class="nav-icon">⇄</span><span>Movimientos</span
+            ><span class="nav-active-mark"></span></button
+          ><button class="nav-link" data-view="sales">
+            <span class="nav-icon">↗</span><span>Ventas</span
+            ><span class="nav-active-mark"></span></button
+          ><button class="nav-link" data-view="history">
+            <span class="nav-icon">◷</span><span>Trazabilidad</span
+            ><span class="nav-active-mark"></span>
+          </button>
+        </nav>
+        <div class="nav-caption nav-caption-lower">GESTIÓN</div>
+        <nav>
+          <button class="nav-link" data-view="reports">
+            <span class="nav-icon">▤</span><span>Reportes</span
+            ><span class="nav-active-mark"></span></button
+          ><button
+            class="nav-link module-blocked"
+            data-view="admin"
+            id="admin-nav-link"
+          >
+            <span class="nav-icon">⚙</span><span>Administración</span
+            ><span class="nav-active-mark"></span>
+          </button>
+        </nav>
+        <div class="nav-bottom">
+          <div class="nav-user">
+            <span class="user-avatar">N</span
+            ><span
+              ><strong id="session-user-name">Mi negocio</strong
+              ><small id="session-user-role">Sin sesión</small></span
+            >
+          </div>
+          <div class="nav-version">NEYRA <span>·</span> VERSIÓN 1.0</div>
+        </div>
+      </aside>
     </div>
     <div id="modal-root"></div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script>
       const MODULES = [
-        { id: 'dashboard', label: 'Resumen' },
-        { id: 'inventory', label: 'Inventario' },
-        { id: 'movements', label: 'Movimientos' },
-        { id: 'sales', label: 'Ventas' },
-        { id: 'reports', label: 'Reportes' }
+        { id: "dashboard", label: "Resumen" },
+        { id: "inventory", label: "Inventario" },
+        { id: "movements", label: "Movimientos" },
+        { id: "sales", label: "Ventas" },
+        { id: "reports", label: "Reportes" },
       ];
-      const USERS = [{ id: 'administrator', name: 'Administrador', username: 'admin', password: 'neyra2026', role: 'admin', modules: MODULES.map(module => module.id) }];
+      const USERS = [
+        {
+          id: "administrator",
+          name: "Administrador",
+          username: "admin",
+          password: "neyra2026",
+          role: "admin",
+          modules: MODULES.map((module) => module.id),
+        },
+      ];
       let currentUser = null;
-      const STORAGE_KEY = 'neyra-static-store-v1';
+      const STORAGE_KEY = "neyra-static-store-v1";
+      // Datos iniciales: se cargan en cualquier dispositivo que aún no tenga datos guardados.
+      // Edita estas listas para cambiar el catálogo de arranque.
+      const SEED_DATA = (() => {
+        // [nombre, sku, categoría, precio, costo, stock, mínimo]
+        const rows = [
+          ["Martillo carpintero 16 oz", "MAR-16OZ", "Herramientas manuales", 39.9, 24.5, 32, 10],
+          ["Alicate universal 8\"", "ALI-UNI8", "Herramientas manuales", 32.5, 19.2, 26, 8],
+          ["Destornillador Phillips #2", "DES-PH2", "Herramientas manuales", 9.9, 5.1, 52, 15],
+          ["Juego de llaves combinadas 12 pzas", "LLA-COM12", "Herramientas manuales", 119, 74, 11, 5],
+          ["Cinta métrica 5 m", "CIN-MET5", "Herramientas manuales", 14.9, 8.2, 64, 20],
+          ["Taladro percutor 650 W", "TAL-650", "Herramientas eléctricas", 249, 168, 7, 8],
+          ["Taladro inalámbrico 20 V", "TAL-INA20", "Herramientas eléctricas", 389, 265, 10, 5],
+          ["Amoladora angular 4 1/2\" 850 W", "AMO-850", "Herramientas eléctricas", 199, 134, 8, 4],
+          ["Set de brocas y puntas 40 pzas", "BRO-SET40", "Accesorios", 59.9, 32, 38, 10],
+          ["Disco de corte metal 4 1/2\"", "DIS-COR45", "Accesorios", 4.5, 2.1, 240, 80],
+          ["Cable extensión 10 m", "ALA-10M", "Electricidad", 39.9, 23.5, 4, 8],
+          ["Interruptor simple empotrable", "INT-SIM", "Electricidad", 7.9, 3.9, 88, 30],
+          ["Foco LED 12 W luz fría", "FOC-LED12", "Electricidad", 8.9, 4.3, 150, 50],
+          ["Tornillos para madera 1\" (100 u)", "TOR-MAD100", "Fijaciones", 8.5, 4.2, 0, 20],
+          ["Tarugos plásticos 8 mm (50 u)", "TAR-8MM", "Fijaciones", 5.5, 2.6, 110, 35],
+          ["Pintura látex blanco 1 gal", "PIN-LAT1", "Pinturas", 54.9, 36, 28, 10],
+          ["Rodillo antigota 9\"", "ROD-9", "Pinturas", 15.9, 8.9, 36, 12],
+          ["Guantes de seguridad de cuero", "GUA-CUE", "Seguridad", 14.9, 8, 60, 20],
+          ["Lentes de seguridad transparentes", "LEN-TRA", "Seguridad", 7.9, 3.8, 3, 15],
+          ["Tubo PVC 1/2\" x 5 m", "TUB-PVC12", "Gasfitería", 12.9, 7.8, 70, 25],
+        ];
+        const products = rows.map(([name, sku, category, price, cost, stock, minStock], index) => ({
+          id: `P-${1001 + index}`,
+          name, sku, category, price, cost, stock, minStock,
+        }));
+        const day = 24 * 60 * 60 * 1000;
+        const now = Date.now();
+        const at = (daysAgo, hour) => {
+          const date = new Date(now - daysAgo * day);
+          date.setHours(hour, 15, 0, 0);
+          return date.toISOString();
+        };
+        // [díasAtrás, hora, índiceProducto, cantidad]
+        const saleRows = [
+          [13, 10, 0, 3], [12, 11, 5, 1], [11, 9, 15, 4], [10, 15, 16, 2],
+          [9, 12, 11, 6], [8, 10, 4, 5], [7, 11, 6, 2], [6, 9, 17, 10],
+          [5, 13, 10, 3], [4, 10, 3, 1], [3, 16, 12, 12], [2, 9, 9, 30],
+          [1, 11, 8, 2], [0, 10, 19, 6],
+        ];
+        const sales = saleRows.map(([daysAgo, hour, index, quantity], position) => {
+          const product = products[index];
+          return {
+            id: `V-${String(position + 1).padStart(5, "0")}`,
+            productId: product.id,
+            quantity,
+            unitPrice: product.price,
+            total: Math.round(product.price * quantity * 100) / 100,
+            date: at(daysAgo, hour),
+            detail: "Venta de mostrador",
+          };
+        });
+        const saleMovements = sales.map((sale) => ({
+          id: `M-${sale.id}`,
+          productId: sale.productId,
+          type: "Venta",
+          quantity: sale.quantity,
+          reference: sale.id,
+          detail: sale.detail,
+          date: sale.date,
+        }));
+        // [díasAtrás, hora, índiceProducto, tipo, cantidad, referencia, detalle]
+        const otherRows = [
+          [14, 9, 0, "Entrada", 40, "OC-2026-031", "Reposición de proveedor"],
+          [14, 10, 18, "Entrada", 300, "OC-2026-031", "Reposición de proveedor"],
+          [12, 15, 11, "Entrada", 10, "OC-2026-034", "Reposición de proveedor"],
+          [10, 11, 33, "Entrada", 24, "OC-2026-036", "Reposición de proveedor"],
+          [8, 16, 24, "Entrada", 100, "OC-2026-038", "Reposición de proveedor"],
+          [6, 12, 3, "Salida", 2, "AJ-0006", "Producto dañado en almacén"],
+          [4, 10, 21, "Salida", 1, "AJ-0007", "Muestra para cliente"],
+          [3, 9, 31, "Entrada", 40, "OC-2026-041", "Reposición de proveedor"],
+          [2, 14, 38, "Salida", 5, "AJ-0008", "Ajuste por inventario físico"],
+          [1, 10, 15, "Salida", 1, "AJ-0009", "Equipo de exhibición"],
+        ];
+        const otherMovements = otherRows.map(([daysAgo, hour, index, type, quantity, reference, detail], position) => ({
+          id: `M-AJ-${position + 1}`,
+          productId: products[index].id,
+          type, quantity, reference, detail,
+          date: at(daysAgo, hour),
+        }));
+        const movements = [...saleMovements, ...otherMovements].sort(
+          (a, b) => new Date(b.date) - new Date(a.date),
+        );
+        return { products, movements, sales };
+      })();
       let persistenceReady = false;
-      const loginForm = document.querySelector('#login-form');
+      const loginForm = document.querySelector("#login-form");
+
+      // URL de Firebase Realtime Database, ej: "https://TU-PROYECTO-default-rtdb.firebaseio.com/neyra.json"
+      const CLOUD_URL = "";
+      let cloudTimer = null;
+      let cloudPayload = null;
+
+      function pushToCloud() {
+        clearTimeout(cloudTimer);
+        if (!CLOUD_URL || cloudPayload === null) return;
+        const body = cloudPayload;
+        cloudPayload = null;
+        fetch(CLOUD_URL, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body,
+          keepalive: true,
+        }).catch((error) => console.error("No se pudo sincronizar.", error));
+      }
+
+      async function pullFromCloud() {
+        if (!CLOUD_URL) return;
+        try {
+          const response = await fetch(CLOUD_URL, { cache: "no-store" });
+          if (!response.ok) return;
+          const remote = await response.json();
+          if (remote && typeof remote === "object") {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(remote));
+          }
+        } catch (error) {
+          console.error("No se pudo leer la nube; se usan datos locales.", error);
+        }
+      }
 
       function savePersistentData() {
         if (!persistenceReady) return;
         try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          const payload = JSON.stringify({
             products: data.products,
             movements: data.movements,
             sales: data.sales,
@@ -197,59 +1202,107 @@
             invoices: data.invoices,
             nextSale: data.nextSale,
             nextInvoice: data.nextInvoice,
-            users: USERS.filter(user => user.role === 'worker')
-          }));
+            users: USERS.filter((user) => user.role === "worker"),
+          });
+          localStorage.setItem(STORAGE_KEY, payload);
+          cloudPayload = payload;
+          clearTimeout(cloudTimer);
+          cloudTimer = setTimeout(pushToCloud, 500);
         } catch (error) {
-          console.error('No se pudieron guardar los datos en este navegador.', error);
-          alert('No fue posible guardar los datos en este navegador. Revisa el espacio disponible o la configuración de privacidad.');
+          console.error(
+            "No se pudieron guardar los datos en este navegador.",
+            error,
+          );
+          alert(
+            "No fue posible guardar los datos en este navegador. Revisa el espacio disponible o la configuración de privacidad.",
+          );
         }
       }
 
       function restorePersistentData() {
         let saved = null;
         try {
-          saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+          saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
         } catch (error) {
-          console.error('No se pudieron leer los datos guardados.', error);
+          console.error("No se pudieron leer los datos guardados.", error);
         }
 
         if (saved && Array.isArray(saved.products)) {
           data.products = saved.products;
-          data.movements = Array.isArray(saved.movements) ? saved.movements : [];
+          data.movements = Array.isArray(saved.movements)
+            ? saved.movements
+            : [];
           data.sales = Array.isArray(saved.sales) ? saved.sales : [];
           data.expenses = Array.isArray(saved.expenses) ? saved.expenses : [];
           data.invoices = Array.isArray(saved.invoices) ? saved.invoices : [];
-          data.nextSale = Number.isInteger(saved.nextSale) ? saved.nextSale : data.sales.length + 1;
-          data.nextInvoice = Number.isInteger(saved.nextInvoice) ? saved.nextInvoice : data.invoices.length + 1;
+          data.nextSale = Number.isInteger(saved.nextSale)
+            ? saved.nextSale
+            : data.sales.length + 1;
+          data.nextInvoice = Number.isInteger(saved.nextInvoice)
+            ? saved.nextInvoice
+            : data.invoices.length + 1;
           if (Array.isArray(saved.users)) {
-            saved.users.filter(user => user && user.role === 'worker' && user.username && user.password && user.name).forEach(user => {
-              const modules = Array.isArray(user.modules) ? [...new Set(user.modules.map(module => module === 'history' ? 'movements' : module).filter(module => MODULES.some(available => available.id === module)))] : [];
-              if (modules.length && !USERS.some(existing => existing.username.toLowerCase() === String(user.username).toLowerCase())) {
-                USERS.push({ ...user, modules });
-              }
-            });
+            saved.users
+              .filter(
+                (user) =>
+                  user &&
+                  user.role === "worker" &&
+                  user.username &&
+                  user.password &&
+                  user.name,
+              )
+              .forEach((user) => {
+                const modules = Array.isArray(user.modules)
+                  ? [
+                      ...new Set(
+                        user.modules
+                          .map((module) =>
+                            module === "history" ? "movements" : module,
+                          )
+                          .filter((module) =>
+                            MODULES.some(
+                              (available) => available.id === module,
+                            ),
+                          ),
+                      ),
+                    ]
+                  : [];
+                if (
+                  modules.length &&
+                  !USERS.some(
+                    (existing) =>
+                      existing.username.toLowerCase() ===
+                      String(user.username).toLowerCase(),
+                  )
+                ) {
+                  USERS.push({ ...user, modules });
+                }
+              });
           }
         } else {
-          data.products = [];
-          data.movements = [];
-          data.sales = [];
+          data.products = structuredClone(SEED_DATA.products);
+          data.movements = structuredClone(SEED_DATA.movements);
+          data.sales = structuredClone(SEED_DATA.sales);
           data.expenses = [];
           data.invoices = [];
-          data.nextSale = 1;
+          data.nextSale = SEED_DATA.sales.length + 1;
           data.nextInvoice = 1;
         }
 
         const appRenderReports = renderReports;
         renderReports = function (...args) {
-          const dateLabel = document.querySelector('#report-range-label');
-          if (dateLabel && !document.querySelector('#report-generated-date')) {
-            const dateSlot = document.createElement('span');
-            dateSlot.id = 'report-generated-date';
-            dateLabel.append(' · ', dateSlot);
+          const dateLabel = document.querySelector("#report-range-label");
+          if (dateLabel && !document.querySelector("#report-generated-date")) {
+            const dateSlot = document.createElement("span");
+            dateSlot.id = "report-generated-date";
+            dateLabel.append(" · ", dateSlot);
           }
           const result = appRenderReports(...args);
-          const generatedDate = document.querySelector('#report-generated-date');
-          if (generatedDate) generatedDate.textContent = dateTime.format(new Date());
+          const generatedDate = document.querySelector(
+            "#report-generated-date",
+          );
+          if (generatedDate)
+            generatedDate.textContent = dateTime.format(new Date());
           return result;
         };
 
@@ -261,93 +1314,171 @@
         };
         persistenceReady = true;
         render();
-        document.addEventListener('change', event => {
-          if (['report-period', 'report-start', 'report-end'].includes(event.target.id)) {
-            event.stopImmediatePropagation();
-            renderReports();
-            return;
-          }
-          if (['movement-print-start', 'movement-print-end'].includes(event.target.id)) {
-            event.stopImmediatePropagation();
-            renderMovements();
-          }
-        }, true);
+        document.addEventListener(
+          "change",
+          (event) => {
+            if (
+              ["report-period", "report-start", "report-end"].includes(
+                event.target.id,
+              )
+            ) {
+              event.stopImmediatePropagation();
+              renderReports();
+              return;
+            }
+            if (
+              ["movement-print-start", "movement-print-end"].includes(
+                event.target.id,
+              )
+            ) {
+              event.stopImmediatePropagation();
+              renderMovements();
+            }
+          },
+          true,
+        );
 
         document.querySelector('.nav-link[data-view="history"]')?.remove();
-        document.querySelector('#report-print-day').value = localDateValue();
-        document.querySelector('#print-report').addEventListener('click', event => {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          printReport();
-        }, true);
+        document.querySelector("#report-print-day").value = localDateValue();
+        document.querySelector("#print-report").addEventListener(
+          "click",
+          (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            printReport();
+          },
+          true,
+        );
 
-        money = value => new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 2 }).format(Number(value) || 0);
+        money = (value) =>
+          new Intl.NumberFormat("es-PE", {
+            style: "currency",
+            currency: "PEN",
+            maximumFractionDigits: 2,
+          }).format(Number(value) || 0);
 
         movementRowsHtml = function (movements) {
-          return movements.map(movement => {
-            const product = productFor(movement.productId);
-            const productName = product?.name || movement.productName || 'Producto eliminado';
-            const productSku = product?.sku || movement.productSku || '';
-            const [symbol, color] = movementSymbol(movement.type);
-            const quantity = movement.type === 'Entrada' ? `+${movement.quantity}` : `−${movement.quantity}`;
-            const productMarkup = product
-              ? `<strong>${escapeHtml(productName)}</strong><small>${escapeHtml(productSku)}</small>`
-              : `<strong>Producto eliminado</strong><small>${escapeHtml(productName)}</small><small>SKU: ${escapeHtml(productSku)}</small>`;
-            return `<tr data-movement-id="${escapeHtml(movement.id)}"><td>${dateTime.format(new Date(movement.date))}</td><td>${productMarkup}</td><td><span class="movement-symbol ${color}">${symbol}</span> ${escapeHtml(movement.type)}</td><td>${quantity} uds.</td><td class="sku">${escapeHtml(movement.reference || '—')}</td><td>${escapeHtml(movement.detail || '—')}</td><td></td></tr>`;
-          }).join('');
+          return movements
+            .map((movement) => {
+              const product = productFor(movement.productId);
+              const productName =
+                product?.name || movement.productName || "Producto eliminado";
+              const productSku = product?.sku || movement.productSku || "";
+              const [symbol, color] = movementSymbol(movement.type);
+              const quantity =
+                movement.type === "Entrada"
+                  ? `+${movement.quantity}`
+                  : `−${movement.quantity}`;
+              const productMarkup = product
+                ? `<strong>${escapeHtml(productName)}</strong><small>${escapeHtml(productSku)}</small>`
+                : `<strong>Producto eliminado</strong><small>${escapeHtml(productName)}</small><small>SKU: ${escapeHtml(productSku)}</small>`;
+              return `<tr data-movement-id="${escapeHtml(movement.id)}"><td>${dateTime.format(new Date(movement.date))}</td><td>${productMarkup}</td><td><span class="movement-symbol ${color}">${symbol}</span> ${escapeHtml(movement.type)}</td><td>${quantity} uds.</td><td class="sku">${escapeHtml(movement.reference || "—")}</td><td>${escapeHtml(movement.detail || "—")}</td><td></td></tr>`;
+            })
+            .join("");
         };
 
         showMovementForm = function () {
-          if (!data.products.length) return toast('Añade un producto antes de registrar movimientos.');
-          const choices = data.products.map(product => `<option value="${escapeHtml(product.id)}">${escapeHtml(product.name)} · ${product.stock} uds.</option>`).join('');
-          const fields = field('Tipo de movimiento', 'type', { type: 'select', choices: '<option value="Entrada">Entrada</option><option value="Salida">Salida</option>' }) +
-            field('Producto', 'productId', { type: 'select', choices }) +
-            field('Cantidad', 'quantity', { type: 'number', min: '1', step: '1' }) +
-            field('Referencia', 'reference', { placeholder: 'SKU del producto seleccionado' }) +
-            field('Fecha del movimiento', 'movementDate', { type: 'date', value: localDateValue() }) +
-            field('Detalle', 'detail', { placeholder: 'Motivo o comentario', full: true, required: false });
-          openModal('Registrar movimiento', 'Elige el producto y la fecha del movimiento.', fields, 'Guardar movimiento', values => {
-            const product = productFor(values.productId);
-            const quantity = Number(values.quantity);
-            const movementDate = values.movementDate ? new Date(`${values.movementDate}T12:00:00`) : null;
-            if (!product || !Number.isInteger(quantity) || quantity < 1 || !movementDate || Number.isNaN(movementDate.getTime())) return toast('Revisa el producto, la cantidad y la fecha.');
-            if (values.type === 'Salida' && quantity > product.stock) return toast(`Solo hay ${product.stock} unidades disponibles.`);
-            product.stock += values.type === 'Entrada' ? quantity : -quantity;
-            data.movements.push({
-              id: `M-${Date.now()}`,
-              productId: product.id,
-              productName: product.name,
-              productSku: product.sku,
-              type: values.type,
-              quantity,
-              reference: product.sku,
-              detail: values.detail.trim() || (values.type === 'Entrada' ? 'Ingreso de inventario' : 'Salida de inventario'),
-              date: movementDate.toISOString()
+          if (!data.products.length)
+            return toast("Añade un producto antes de registrar movimientos.");
+          const choices = data.products
+            .map(
+              (product) =>
+                `<option value="${escapeHtml(product.id)}">${escapeHtml(product.name)} · ${product.stock} uds.</option>`,
+            )
+            .join("");
+          const fields =
+            field("Tipo de movimiento", "type", {
+              type: "select",
+              choices:
+                '<option value="Entrada">Entrada</option><option value="Salida">Salida</option>',
+            }) +
+            field("Producto", "productId", { type: "select", choices }) +
+            field("Cantidad", "quantity", {
+              type: "number",
+              min: "1",
+              step: "1",
+            }) +
+            field("Referencia", "reference", {
+              placeholder: "SKU del producto seleccionado",
+            }) +
+            field("Fecha del movimiento", "movementDate", {
+              type: "date",
+              value: localDateValue(),
+            }) +
+            field("Detalle", "detail", {
+              placeholder: "Motivo o comentario",
+              full: true,
+              required: false,
             });
-            closeModal();
-            render();
-            toast(`${values.type} de ${quantity} unidades registrada.`);
-          });
-          const productSelect = document.querySelector('#field-productId');
-          const referenceInput = document.querySelector('#field-reference');
+          openModal(
+            "Registrar movimiento",
+            "Elige el producto y la fecha del movimiento.",
+            fields,
+            "Guardar movimiento",
+            (values) => {
+              const product = productFor(values.productId);
+              const quantity = Number(values.quantity);
+              const movementDate = values.movementDate
+                ? new Date(`${values.movementDate}T12:00:00`)
+                : null;
+              if (
+                !product ||
+                !Number.isInteger(quantity) ||
+                quantity < 1 ||
+                !movementDate ||
+                Number.isNaN(movementDate.getTime())
+              )
+                return toast("Revisa el producto, la cantidad y la fecha.");
+              if (values.type === "Salida" && quantity > product.stock)
+                return toast(`Solo hay ${product.stock} unidades disponibles.`);
+              product.stock += values.type === "Entrada" ? quantity : -quantity;
+              data.movements.push({
+                id: `M-${Date.now()}`,
+                productId: product.id,
+                productName: product.name,
+                productSku: product.sku,
+                type: values.type,
+                quantity,
+                reference: product.sku,
+                detail:
+                  values.detail.trim() ||
+                  (values.type === "Entrada"
+                    ? "Ingreso de inventario"
+                    : "Salida de inventario"),
+                date: movementDate.toISOString(),
+              });
+              closeModal();
+              render();
+              toast(`${values.type} de ${quantity} unidades registrada.`);
+            },
+          );
+          const productSelect = document.querySelector("#field-productId");
+          const referenceInput = document.querySelector("#field-reference");
           if (referenceInput) {
-            referenceInput.value = productFor(productSelect.value)?.sku || '';
+            referenceInput.value = productFor(productSelect.value)?.sku || "";
             referenceInput.readOnly = true;
           }
-          productSelect?.addEventListener('change', () => {
-            if (referenceInput) referenceInput.value = productFor(productSelect.value)?.sku || '';
+          productSelect?.addEventListener("change", () => {
+            if (referenceInput)
+              referenceInput.value = productFor(productSelect.value)?.sku || "";
           });
         };
 
         const originalMovementRowsFor = movementRowsFor;
         movementRowsFor = function (search, filter) {
           const rows = originalMovementRowsFor(search, filter);
-          const startValue = document.querySelector('#movement-print-start').value;
-          const endValue = document.querySelector('#movement-print-end').value;
+          const startValue = document.querySelector(
+            "#movement-print-start",
+          ).value;
+          const endValue = document.querySelector("#movement-print-end").value;
           if (startValue && endValue && startValue > endValue) return [];
-          const start = startValue ? new Date(`${startValue}T00:00:00`).getTime() : Number.NEGATIVE_INFINITY;
-          const end = endValue ? new Date(`${endValue}T23:59:59.999`).getTime() : Number.POSITIVE_INFINITY;
-          return rows.filter(movement => {
+          const start = startValue
+            ? new Date(`${startValue}T00:00:00`).getTime()
+            : Number.NEGATIVE_INFINITY;
+          const end = endValue
+            ? new Date(`${endValue}T23:59:59.999`).getTime()
+            : Number.POSITIVE_INFINITY;
+          return rows.filter((movement) => {
             const timestamp = new Date(movement.date).getTime();
             return timestamp >= start && timestamp <= end;
           });
@@ -356,41 +1487,41 @@
         const originalShowMovementForm = showMovementForm;
         showMovementForm = function () {
           originalShowMovementForm();
-          const productSelect = document.querySelector('#field-productId');
-          const referenceInput = document.querySelector('#field-reference');
+          const productSelect = document.querySelector("#field-productId");
+          const referenceInput = document.querySelector("#field-reference");
           if (!productSelect || !referenceInput) return;
-          referenceInput.value = productFor(productSelect.value)?.sku || '';
+          referenceInput.value = productFor(productSelect.value)?.sku || "";
           referenceInput.readOnly = true;
-          referenceInput.placeholder = 'SKU del producto seleccionado';
-          productSelect.addEventListener('change', () => {
-            referenceInput.value = productFor(productSelect.value)?.sku || '';
+          referenceInput.placeholder = "SKU del producto seleccionado";
+          productSelect.addEventListener("change", () => {
+            referenceInput.value = productFor(productSelect.value)?.sku || "";
           });
         };
 
         const originalShowProductForm = showProductForm;
         showProductForm = function () {
           originalShowProductForm();
-          ['price', 'cost'].forEach(name => {
+          ["price", "cost"].forEach((name) => {
             const input = document.querySelector(`#field-${name}`);
-            if (input) input.step = '0.01';
+            if (input) input.step = "0.01";
           });
         };
 
         const originalShowSaleForm = showSaleForm;
         showSaleForm = function () {
           originalShowSaleForm();
-          const unitPriceInput = document.querySelector('#field-unitPrice');
+          const unitPriceInput = document.querySelector("#field-unitPrice");
           if (unitPriceInput) {
-            unitPriceInput.step = '0.01';
-            unitPriceInput.inputMode = 'decimal';
+            unitPriceInput.step = "0.01";
+            unitPriceInput.inputMode = "decimal";
           }
         };
 
         const originalPrintReport = printReport;
         printReport = function () {
-          const selectedDay = document.querySelector('#report-print-day').value;
+          const selectedDay = document.querySelector("#report-print-day").value;
           if (!selectedDay) {
-            alert('Selecciona el día que deseas incluir en el PDF.');
+            alert("Selecciona el día que deseas incluir en el PDF.");
             return;
           }
           const start = new Date(`${selectedDay}T00:00:00`).getTime();
@@ -398,17 +1529,20 @@
           const originalSales = data.sales;
           const originalMovements = data.movements;
           const nativePrint = window.print;
-          data.sales = originalSales.filter(record => {
+          data.sales = originalSales.filter((record) => {
             const timestamp = new Date(record.date).getTime();
             return timestamp >= start && timestamp <= end;
           });
-          data.movements = originalMovements.filter(record => {
+          data.movements = originalMovements.filter((record) => {
             const timestamp = new Date(record.date).getTime();
             return timestamp >= start && timestamp <= end;
           });
           window.print = function () {
-            const subtitle = document.querySelector('#report-paper .print-subtitle');
-            if (subtitle) subtitle.textContent = `Reporte del día ${new Intl.DateTimeFormat('es-PE', { dateStyle: 'long' }).format(new Date(`${selectedDay}T12:00:00`))}`;
+            const subtitle = document.querySelector(
+              "#report-paper .print-subtitle",
+            );
+            if (subtitle)
+              subtitle.textContent = `Reporte del día ${new Intl.DateTimeFormat("es-PE", { dateStyle: "long" }).format(new Date(`${selectedDay}T12:00:00`))}`;
             return nativePrint.call(window);
           };
           try {
@@ -420,58 +1554,106 @@
           }
         };
 
-        document.addEventListener('click', event => {
-          const closeButton = event.target.closest('#modal-root button[data-action="close-modal"]');
-          const backdrop = event.target.matches('#modal-root .modal-backdrop[data-action="close-modal"]');
-          if (!closeButton && !backdrop) return;
-          if (closeButton && !closeButton.classList.contains('modal-close') && event.target !== closeButton) return;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          closeModal();
-        }, true);
+        document.addEventListener(
+          "click",
+          (event) => {
+            const closeButton = event.target.closest(
+              '#modal-root button[data-action="close-modal"]',
+            );
+            const backdrop = event.target.matches(
+              '#modal-root .modal-backdrop[data-action="close-modal"]',
+            );
+            if (!closeButton && !backdrop) return;
+            if (
+              closeButton &&
+              !closeButton.classList.contains("modal-close") &&
+              event.target !== closeButton
+            )
+              return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            closeModal();
+          },
+          true,
+        );
       }
 
       function showSessionView(viewName) {
-        document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.id === `view-${viewName}`));
-        document.querySelectorAll('.nav-link[data-view]').forEach(link => link.classList.toggle('active', link.dataset.view === viewName));
-        const activeLink = document.querySelector(`.nav-link[data-view="${viewName}"] span:nth-child(2)`);
-        document.querySelector('#breadcrumb-current').textContent = activeLink?.textContent || 'Resumen';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document
+          .querySelectorAll(".view")
+          .forEach((view) =>
+            view.classList.toggle("active", view.id === `view-${viewName}`),
+          );
+        document
+          .querySelectorAll(".nav-link[data-view]")
+          .forEach((link) =>
+            link.classList.toggle("active", link.dataset.view === viewName),
+          );
+        const activeLink = document.querySelector(
+          `.nav-link[data-view="${viewName}"] span:nth-child(2)`,
+        );
+        document.querySelector("#breadcrumb-current").textContent =
+          activeLink?.textContent || "Resumen";
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       function hasModuleAccess(moduleId) {
-        return Boolean(currentUser && (currentUser.role === 'admin' || currentUser.modules.includes(moduleId)));
+        return Boolean(
+          currentUser &&
+          (currentUser.role === "admin" ||
+            currentUser.modules.includes(moduleId)),
+        );
       }
 
       function applyModuleAccess() {
-        document.querySelectorAll('.nav-link[data-view]').forEach(link => {
-          const allowed = link.dataset.view === 'admin' ? currentUser.role === 'admin' : hasModuleAccess(link.dataset.view);
-          link.classList.toggle('module-blocked', !allowed);
+        document.querySelectorAll(".nav-link[data-view]").forEach((link) => {
+          const allowed =
+            link.dataset.view === "admin"
+              ? currentUser.role === "admin"
+              : hasModuleAccess(link.dataset.view);
+          link.classList.toggle("module-blocked", !allowed);
         });
-        document.querySelectorAll('.view[data-module]').forEach(view => {
-          const allowed = view.dataset.module === 'admin' ? currentUser.role === 'admin' : hasModuleAccess(view.dataset.module);
-          view.classList.toggle('module-blocked', !allowed);
+        document.querySelectorAll(".view[data-module]").forEach((view) => {
+          const allowed =
+            view.dataset.module === "admin"
+              ? currentUser.role === "admin"
+              : hasModuleAccess(view.dataset.module);
+          view.classList.toggle("module-blocked", !allowed);
         });
-        document.querySelector('#session-user-name').textContent = currentUser.name;
-        document.querySelector('#session-user-role').textContent = currentUser.role === 'admin' ? 'Administrador' : 'Trabajador';
-        document.querySelector('#admin-nav-link').classList.toggle('module-blocked', currentUser.role !== 'admin');
-        showSessionView(currentUser.role === 'admin' ? 'dashboard' : currentUser.modules[0]);
+        document.querySelector("#session-user-name").textContent =
+          currentUser.name;
+        document.querySelector("#session-user-role").textContent =
+          currentUser.role === "admin" ? "Administrador" : "Trabajador";
+        document
+          .querySelector("#admin-nav-link")
+          .classList.toggle("module-blocked", currentUser.role !== "admin");
+        showSessionView(
+          currentUser.role === "admin" ? "dashboard" : currentUser.modules[0],
+        );
       }
 
       function renderWorkers() {
-        const workers = USERS.filter(user => user.role === 'worker');
-        document.querySelector('#worker-count').textContent = `${workers.length} trabajador${workers.length === 1 ? '' : 'es'}`;
-        document.querySelector('#worker-empty').classList.toggle('hidden', workers.length > 0);
-        document.querySelector('#worker-rows').innerHTML = workers.map(worker => `<tr><td><strong>${escapeHtml(worker.name)}</strong></td><td class="sku">${escapeHtml(worker.username)}</td><td><div class="worker-module-list">${MODULES.map(module => `<label class="worker-permission"><input type="checkbox" data-worker-module="${module.id}" data-worker-id="${worker.id}" ${worker.modules.includes(module.id) ? 'checked' : ''}>${module.label}</label>`).join('')}</div></td><td><button type="button" class="worker-delete" data-remove-worker="${worker.id}">Eliminar</button></td></tr>`).join('');
+        const workers = USERS.filter((user) => user.role === "worker");
+        document.querySelector("#worker-count").textContent =
+          `${workers.length} trabajador${workers.length === 1 ? "" : "es"}`;
+        document
+          .querySelector("#worker-empty")
+          .classList.toggle("hidden", workers.length > 0);
+        document.querySelector("#worker-rows").innerHTML = workers
+          .map(
+            (worker) =>
+              `<tr><td><strong>${escapeHtml(worker.name)}</strong></td><td class="sku">${escapeHtml(worker.username)}</td><td><div class="worker-module-list">${MODULES.map((module) => `<label class="worker-permission"><input type="checkbox" data-worker-module="${module.id}" data-worker-id="${worker.id}" ${worker.modules.includes(module.id) ? "checked" : ""}>${module.label}</label>`).join("")}</div></td><td><button type="button" class="worker-delete" data-remove-worker="${worker.id}">Eliminar</button></td></tr>`,
+          )
+          .join("");
       }
       function parseProductCsv(text) {
-        const source = text.trim().replace(/^\uFEFF/, '');
-        if (!source) throw new Error('Pega al menos una fila de productos.');
+        const source = text.trim().replace(/^\uFEFF/, "");
+        if (!source) throw new Error("Pega al menos una fila de productos.");
         const firstLine = source.split(/\r?\n/, 1)[0];
-        const delimiter = firstLine.includes(';') ? ';' : ',';
+        const delimiter = firstLine.includes(";") ? ";" : ",";
         const rows = [];
         let row = [];
-        let field = '';
+        let field = "";
         let quoted = false;
 
         for (let index = 0; index < source.length; index += 1) {
@@ -485,338 +1667,584 @@
             }
           } else if (character === delimiter && !quoted) {
             row.push(field.trim());
-            field = '';
-          } else if ((character === '\n' || character === '\r') && !quoted) {
-            if (character === '\r' && source[index + 1] === '\n') index += 1;
+            field = "";
+          } else if ((character === "\n" || character === "\r") && !quoted) {
+            if (character === "\r" && source[index + 1] === "\n") index += 1;
             row.push(field.trim());
-            if (row.some(value => value !== '')) rows.push(row);
+            if (row.some((value) => value !== "")) rows.push(row);
             row = [];
-            field = '';
+            field = "";
           } else {
             field += character;
           }
         }
-        if (quoted) throw new Error('Hay comillas sin cerrar en el CSV.');
+        if (quoted) throw new Error("Hay comillas sin cerrar en el CSV.");
         row.push(field.trim());
-        if (row.some(value => value !== '')) rows.push(row);
+        if (row.some((value) => value !== "")) rows.push(row);
 
-        const normalizeHeader = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        const normalizeHeader = (value) =>
+          value
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
         const headers = rows[0].map(normalizeHeader);
-        const hasHeader = headers.includes('nombre') && headers.includes('sku');
-        const positions = hasHeader ? {
-          name: headers.findIndex(value => value === 'nombre'),
-          sku: headers.findIndex(value => value === 'sku'),
-          category: headers.findIndex(value => value.startsWith('categoria')),
-          price: headers.findIndex(value => value.startsWith('precio')),
-          cost: headers.findIndex(value => value.startsWith('costo')),
-          stock: headers.findIndex(value => value === 'stock'),
-          minStock: headers.findIndex(value => value.startsWith('minimo'))
-        } : { name: 0, sku: 1, category: 2, price: 3, cost: 4, stock: 5, minStock: 6 };
+        const hasHeader = headers.includes("nombre") && headers.includes("sku");
+        const positions = hasHeader
+          ? {
+              name: headers.findIndex((value) => value === "nombre"),
+              sku: headers.findIndex((value) => value === "sku"),
+              category: headers.findIndex((value) =>
+                value.startsWith("categoria"),
+              ),
+              price: headers.findIndex((value) => value.startsWith("precio")),
+              cost: headers.findIndex((value) => value.startsWith("costo")),
+              stock: headers.findIndex((value) => value === "stock"),
+              minStock: headers.findIndex((value) =>
+                value.startsWith("minimo"),
+              ),
+            }
+          : {
+              name: 0,
+              sku: 1,
+              category: 2,
+              price: 3,
+              cost: 4,
+              stock: 5,
+              minStock: 6,
+            };
         const startRow = hasHeader ? 1 : 0;
         const imported = [];
-        const knownSkus = new Set(data.products.map(product => product.sku.toLowerCase()));
-        const parseNumber = value => {
-          const normalized = delimiter === ';' ? value.replace(',', '.') : value;
+        const knownSkus = new Set(
+          data.products.map((product) => product.sku.toLowerCase()),
+        );
+        const parseNumber = (value) => {
+          const normalized =
+            delimiter === ";" ? value.replace(",", ".") : value;
           return Number(normalized);
         };
 
         rows.slice(startRow).forEach((values, index) => {
           const lineNumber = index + startRow + 1;
-          const get = key => values[positions[key]]?.trim() || '';
-          const name = get('name');
-          const sku = get('sku').toUpperCase();
-          const category = get('category');
-          const price = parseNumber(get('price'));
-          const cost = parseNumber(get('cost'));
-          const stock = parseNumber(get('stock'));
-          const minStock = parseNumber(get('minStock'));
-          if (!name || !sku || !category || [price, cost, stock, minStock].some(value => !Number.isFinite(value) || value < 0) || !Number.isInteger(stock) || !Number.isInteger(minStock)) {
-            throw new Error(`Revisa la fila ${lineNumber}: nombre, SKU, categoría, precio, costo, stock y mínimo son obligatorios; stock y mínimo deben ser enteros.`);
+          const get = (key) => values[positions[key]]?.trim() || "";
+          const name = get("name");
+          const sku = get("sku").toUpperCase();
+          const category = get("category");
+          const price = parseNumber(get("price"));
+          const cost = parseNumber(get("cost"));
+          const stock = parseNumber(get("stock"));
+          const minStock = parseNumber(get("minStock"));
+          if (
+            !name ||
+            !sku ||
+            !category ||
+            [price, cost, stock, minStock].some(
+              (value) => !Number.isFinite(value) || value < 0,
+            ) ||
+            !Number.isInteger(stock) ||
+            !Number.isInteger(minStock)
+          ) {
+            throw new Error(
+              `Revisa la fila ${lineNumber}: nombre, SKU, categoría, precio, costo, stock y mínimo son obligatorios; stock y mínimo deben ser enteros.`,
+            );
           }
-          if (knownSkus.has(sku.toLowerCase())) throw new Error(`El SKU ${sku} ya existe o está repetido en la carga.`);
+          if (knownSkus.has(sku.toLowerCase()))
+            throw new Error(
+              `El SKU ${sku} ya existe o está repetido en la carga.`,
+            );
           knownSkus.add(sku.toLowerCase());
-          imported.push({ id: `P-${Date.now()}-${index}`, name, sku, category, price, cost, stock, minStock });
+          imported.push({
+            id: `P-${Date.now()}-${index}`,
+            name,
+            sku,
+            category,
+            price,
+            cost,
+            stock,
+            minStock,
+          });
         });
-        if (!imported.length) throw new Error('No se encontraron filas de productos para importar.');
+        if (!imported.length)
+          throw new Error(
+            "No se encontraron filas de productos para importar.",
+          );
         return imported;
       }
 
       function openBulkProductImport() {
-        if (!currentUser || !hasModuleAccess('inventory')) return;
-        const root = document.querySelector('#modal-root');
+        if (!currentUser || !hasModuleAccess("inventory")) return;
+        const root = document.querySelector("#modal-root");
         root.innerHTML = `<div class="modal-backdrop" data-action="close-modal"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="bulk-import-title"><header class="modal-head"><div><h2 id="bulk-import-title">Cargar varios productos</h2><p>Pega filas CSV separadas por coma o punto y coma.</p></div><button class="modal-close" type="button" data-action="close-modal" aria-label="Cerrar">×</button></header><form class="modal-form" id="bulk-import-form"><label class="form-field full" for="bulk-product-csv">Productos<textarea class="bulk-csv" id="bulk-product-csv" name="csv" required placeholder="Nombre;SKU;Categoría;Precio;Costo;Stock;Mínimo&#10;Martillo;MAR-16;Herramientas;25.90;15;10;3"></textarea><span class="bulk-help">Columnas en orden: Nombre, SKU, Categoría, Precio, Costo, Stock y Mínimo. Puedes incluir encabezado. Un SKU no puede repetirse.</span></label><p class="login-error" id="bulk-import-error" role="alert" aria-live="polite"></p><div class="modal-actions"><button type="button" class="button-muted" data-action="close-modal">Cancelar</button><button type="submit" class="button-submit">Importar productos</button></div></form></section></div>`;
-        root.querySelector('.modal').addEventListener('click', event => event.stopPropagation());
-        root.querySelectorAll('[data-action="close-modal"]').forEach(button => button.addEventListener('click', closeModal));
-        root.querySelector('.modal-backdrop').addEventListener('click', event => {
-          if (event.target === event.currentTarget) closeModal();
-        });
-        root.querySelector('#bulk-import-form').addEventListener('submit', event => {
-          event.preventDefault();
-          if (currentUser?.role !== 'admin' && !hasModuleAccess('inventory')) return;
-          try {
-            const products = parseProductCsv(new FormData(event.currentTarget).get('csv'));
-            const date = new Date().toISOString();
-            data.products.push(...products);
-            products.filter(product => product.stock > 0).forEach((product, index) => {
-              data.movements.push({ id: `M-${Date.now()}-${index}`, productId: product.id, type: 'Entrada', quantity: product.stock, reference: 'CARGA-MASIVA', detail: 'Stock inicial por carga masiva', date });
-            });
-            closeModal();
-            render();
-            toast(`${products.length} producto${products.length === 1 ? '' : 's'} importado${products.length === 1 ? '' : 's'}.`);
-          } catch (error) {
-            root.querySelector('#bulk-import-error').textContent = error.message;
-          }
-        });
-        root.querySelector('#bulk-product-csv').focus();
+        root
+          .querySelector(".modal")
+          .addEventListener("click", (event) => event.stopPropagation());
+        root
+          .querySelectorAll('[data-action="close-modal"]')
+          .forEach((button) => button.addEventListener("click", closeModal));
+        root
+          .querySelector(".modal-backdrop")
+          .addEventListener("click", (event) => {
+            if (event.target === event.currentTarget) closeModal();
+          });
+        root
+          .querySelector("#bulk-import-form")
+          .addEventListener("submit", (event) => {
+            event.preventDefault();
+            if (currentUser?.role !== "admin" && !hasModuleAccess("inventory"))
+              return;
+            try {
+              const products = parseProductCsv(
+                new FormData(event.currentTarget).get("csv"),
+              );
+              const date = new Date().toISOString();
+              data.products.push(...products);
+              products
+                .filter((product) => product.stock > 0)
+                .forEach((product, index) => {
+                  data.movements.push({
+                    id: `M-${Date.now()}-${index}`,
+                    productId: product.id,
+                    type: "Entrada",
+                    quantity: product.stock,
+                    reference: "CARGA-MASIVA",
+                    detail: "Stock inicial por carga masiva",
+                    date,
+                  });
+                });
+              closeModal();
+              render();
+              toast(
+                `${products.length} producto${products.length === 1 ? "" : "s"} importado${products.length === 1 ? "" : "s"}.`,
+              );
+            } catch (error) {
+              root.querySelector("#bulk-import-error").textContent =
+                error.message;
+            }
+          });
+        root.querySelector("#bulk-product-csv").focus();
       }
 
       function updateProductDeleteButtons() {
-        document.querySelectorAll('#inventory-rows tr').forEach(row => {
+        document.querySelectorAll("#inventory-rows tr").forEach((row) => {
           const cell = row.lastElementChild;
           if (!cell) return;
-          const existingButton = cell.querySelector('[data-admin-delete-product]');
-          if (currentUser?.role !== 'admin') {
+          const existingButton = cell.querySelector(
+            "[data-admin-delete-product]",
+          );
+          if (currentUser?.role !== "admin") {
             existingButton?.remove();
             return;
           }
           if (existingButton) return;
           const menuButton = cell.querySelector('[data-action="product-menu"]');
           if (!menuButton) return;
-          const deleteButton = document.createElement('button');
-          deleteButton.type = 'button';
-          deleteButton.className = 'admin-delete-product';
+          const deleteButton = document.createElement("button");
+          deleteButton.type = "button";
+          deleteButton.className = "admin-delete-product";
           deleteButton.dataset.adminDeleteProduct = menuButton.dataset.id;
-          deleteButton.textContent = 'Eliminar';
-          deleteButton.setAttribute('aria-label', `Eliminar ${row.cells[0]?.textContent.trim() || 'producto'}`);
+          deleteButton.textContent = "Eliminar";
+          deleteButton.setAttribute(
+            "aria-label",
+            `Eliminar ${row.cells[0]?.textContent.trim() || "producto"}`,
+          );
           cell.append(deleteButton);
         });
       }
 
-      const inventoryRows = document.querySelector('#inventory-rows');
-      new MutationObserver(updateProductDeleteButtons).observe(inventoryRows, { childList: true });
-      inventoryRows.addEventListener('click', event => {
-        const deleteButton = event.target.closest('[data-admin-delete-product]');
-        if (!deleteButton) return;
-        event.preventDefault();
-        event.stopPropagation();
-        if (currentUser?.role !== 'admin') return;
-        const product = data.products.find(item => item.id === deleteButton.dataset.adminDeleteProduct);
-        if (!product || !confirm(`¿Eliminar ${product.name} del inventario? Sus movimientos y ventas históricas se conservarán.`)) return;
-        data.movements.filter(movement => movement.productId === product.id).forEach(movement => {
-          movement.productName = movement.productName || product.name;
-          movement.productSku = movement.productSku || product.sku;
-        });
-        data.products = data.products.filter(item => item.id !== product.id);
-        render();
-      }, true);
+      const inventoryRows = document.querySelector("#inventory-rows");
+      new MutationObserver(updateProductDeleteButtons).observe(inventoryRows, {
+        childList: true,
+      });
+      inventoryRows.addEventListener(
+        "click",
+        (event) => {
+          const deleteButton = event.target.closest(
+            "[data-admin-delete-product]",
+          );
+          if (!deleteButton) return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (currentUser?.role !== "admin") return;
+          const product = data.products.find(
+            (item) => item.id === deleteButton.dataset.adminDeleteProduct,
+          );
+          if (
+            !product ||
+            !confirm(
+              `¿Eliminar ${product.name} del inventario? Sus movimientos y ventas históricas se conservarán.`,
+            )
+          )
+            return;
+          data.movements
+            .filter((movement) => movement.productId === product.id)
+            .forEach((movement) => {
+              movement.productName = movement.productName || product.name;
+              movement.productSku = movement.productSku || product.sku;
+            });
+          data.products = data.products.filter(
+            (item) => item.id !== product.id,
+          );
+          render();
+        },
+        true,
+      );
 
-      const movementRows = document.querySelector('#movement-rows');
+      const movementRows = document.querySelector("#movement-rows");
       function updateMovementDeleteButtons() {
-        movementRows.querySelectorAll('tr').forEach(row => {
+        movementRows.querySelectorAll("tr").forEach((row) => {
           const cell = row.lastElementChild;
-          const existingButton = cell?.querySelector('[data-delete-movement]');
-          if (currentUser?.role !== 'admin') {
+          const existingButton = cell?.querySelector("[data-delete-movement]");
+          if (currentUser?.role !== "admin") {
             existingButton?.remove();
             return;
           }
           if (existingButton) return;
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'worker-delete';
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "worker-delete";
           button.dataset.deleteMovement = row.dataset.movementId;
-          button.textContent = 'Eliminar';
+          button.textContent = "Eliminar";
           cell?.append(button);
         });
       }
 
-      new MutationObserver(updateMovementDeleteButtons).observe(movementRows, { childList: true });
-      movementRows.addEventListener('click', event => {
-        const deleteButton = event.target.closest('[data-delete-movement]');
-        if (!deleteButton) return;
-        event.preventDefault();
-        event.stopPropagation();
-        if (currentUser?.role !== 'admin') return;
-        const movement = data.movements.find(item => item.id === deleteButton.dataset.deleteMovement);
-        if (!movement || !confirm('¿Eliminar definitivamente este movimiento?')) return;
-        data.movements = data.movements.filter(item => item.id !== movement.id);
-        render();
-        toast('Movimiento eliminado.');
-      }, true);
+      new MutationObserver(updateMovementDeleteButtons).observe(movementRows, {
+        childList: true,
+      });
+      movementRows.addEventListener(
+        "click",
+        (event) => {
+          const deleteButton = event.target.closest("[data-delete-movement]");
+          if (!deleteButton) return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (currentUser?.role !== "admin") return;
+          const movement = data.movements.find(
+            (item) => item.id === deleteButton.dataset.deleteMovement,
+          );
+          if (
+            !movement ||
+            !confirm("¿Eliminar definitivamente este movimiento?")
+          )
+            return;
+          data.movements = data.movements.filter(
+            (item) => item.id !== movement.id,
+          );
+          render();
+          toast("Movimiento eliminado.");
+        },
+        true,
+      );
 
       function printMovementRange() {
-        const startValue = document.querySelector('#movement-print-start').value;
-        const endValue = document.querySelector('#movement-print-end').value;
+        const startValue = document.querySelector(
+          "#movement-print-start",
+        ).value;
+        const endValue = document.querySelector("#movement-print-end").value;
         if (startValue && endValue && startValue > endValue) {
-          alert('La fecha inicial no puede ser posterior a la fecha final.');
+          alert("La fecha inicial no puede ser posterior a la fecha final.");
           return;
         }
-        const start = startValue ? new Date(`${startValue}T00:00:00`).getTime() : Number.NEGATIVE_INFINITY;
-        const end = endValue ? new Date(`${endValue}T23:59:59.999`).getTime() : Number.POSITIVE_INFINITY;
+        const start = startValue
+          ? new Date(`${startValue}T00:00:00`).getTime()
+          : Number.NEGATIVE_INFINITY;
+        const end = endValue
+          ? new Date(`${endValue}T23:59:59.999`).getTime()
+          : Number.POSITIVE_INFINITY;
         const movements = [...data.movements]
-          .filter(movement => {
+          .filter((movement) => {
             const timestamp = new Date(movement.date).getTime();
             return timestamp >= start && timestamp <= end;
           })
-          .sort((first, second) => new Date(first.date) - new Date(second.date));
-        const fromLabel = startValue ? new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium' }).format(new Date(`${startValue}T12:00:00`)) : 'el inicio';
-        const toLabel = endValue ? new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium' }).format(new Date(`${endValue}T12:00:00`)) : 'hoy';
-        const rows = movements.map(movement => {
-          const product = productFor(movement.productId);
-          const quantity = movement.type === 'Entrada' ? `+${movement.quantity}` : `−${movement.quantity}`;
-          const productMarkup = product
-            ? escapeHtml(product.name)
-            : `<strong>Producto eliminado</strong><br>${escapeHtml(movement.productName || 'Nombre no disponible')}<br>SKU: ${escapeHtml(movement.productSku || '—')}`;
-          return `<tr><td>${escapeHtml(dateTime.format(new Date(movement.date)))}</td><td>${productMarkup}</td><td>${escapeHtml(movement.type)}</td><td>${quantity} uds.</td><td>${escapeHtml(movement.reference || '—')}</td><td>${escapeHtml(movement.detail || '—')}</td></tr>`;
-        }).join('') || '<tr><td colspan="6">No hay movimientos en el período seleccionado.</td></tr>';
-        document.querySelector('#report-paper')?.remove();
-        const paper = document.createElement('article');
-        paper.id = 'report-paper';
+          .sort(
+            (first, second) => new Date(first.date) - new Date(second.date),
+          );
+        const fromLabel = startValue
+          ? new Intl.DateTimeFormat("es-PE", { dateStyle: "medium" }).format(
+              new Date(`${startValue}T12:00:00`),
+            )
+          : "el inicio";
+        const toLabel = endValue
+          ? new Intl.DateTimeFormat("es-PE", { dateStyle: "medium" }).format(
+              new Date(`${endValue}T12:00:00`),
+            )
+          : "hoy";
+        const rows =
+          movements
+            .map((movement) => {
+              const product = productFor(movement.productId);
+              const quantity =
+                movement.type === "Entrada"
+                  ? `+${movement.quantity}`
+                  : `−${movement.quantity}`;
+              const productMarkup = product
+                ? escapeHtml(product.name)
+                : `<strong>Producto eliminado</strong><br>${escapeHtml(movement.productName || "Nombre no disponible")}<br>SKU: ${escapeHtml(movement.productSku || "—")}`;
+              return `<tr><td>${escapeHtml(dateTime.format(new Date(movement.date)))}</td><td>${productMarkup}</td><td>${escapeHtml(movement.type)}</td><td>${quantity} uds.</td><td>${escapeHtml(movement.reference || "—")}</td><td>${escapeHtml(movement.detail || "—")}</td></tr>`;
+            })
+            .join("") ||
+          '<tr><td colspan="6">No hay movimientos en el período seleccionado.</td></tr>';
+        document.querySelector("#report-paper")?.remove();
+        const paper = document.createElement("article");
+        paper.id = "report-paper";
         paper.innerHTML = `<p class="eyebrow">NEYRA · CONTROL DE INVENTARIO</p><h1>Reporte de movimientos</h1><p class="print-subtitle">Período: ${escapeHtml(fromLabel)} a ${escapeHtml(toLabel)} · ${movements.length} movimientos</p><table><thead><tr><th>FECHA Y HORA</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>REFERENCIA</th><th>DETALLE</th></tr></thead><tbody>${rows}</tbody></table><p class="print-footer">Reporte generado el ${escapeHtml(dateTime.format(new Date()))}.</p>`;
         document.body.append(paper);
-        document.body.classList.add('printing');
+        document.body.classList.add("printing");
         window.print();
-        document.body.classList.remove('printing');
+        document.body.classList.remove("printing");
         paper.remove();
       }
 
       function signOut() {
+        pushToCloud();
         currentUser = null;
-        document.body.classList.add('login-locked');
+        if (CLOUD_URL) {
+          location.reload();
+          return;
+        }
+        document.body.classList.add("login-locked");
         loginForm.reset();
-        document.querySelector('#login-error').textContent = '';
-        document.querySelector('#login-username').focus();
+        document.querySelector("#login-error").textContent = "";
+        document.querySelector("#login-username").focus();
       }
 
-      loginForm.addEventListener('submit', event => {
+      loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const formData = new FormData(loginForm);
-        const username = String(formData.get('username')).trim();
-        const password = String(formData.get('password'));
+        const username = String(formData.get("username")).trim();
+        const password = String(formData.get("password"));
 
-        const user = USERS.find(account => account.username.toLowerCase() === username.toLowerCase() && account.password === password);
+        const user = USERS.find(
+          (account) =>
+            account.username.toLowerCase() === username.toLowerCase() &&
+            account.password === password,
+        );
         if (!user) {
-          document.querySelector('#login-error').textContent = 'Usuario o contraseña incorrectos.';
-          document.querySelector('#login-password').select();
+          document.querySelector("#login-error").textContent =
+            "Usuario o contraseña incorrectos.";
+          document.querySelector("#login-password").select();
           return;
         }
 
         currentUser = user;
-        if (currentUser.role === 'admin') renderWorkers();
+        if (currentUser.role === "admin") renderWorkers();
         applyModuleAccess();
-        document.body.classList.remove('login-locked');
+        document.body.classList.remove("login-locked");
         updateProductDeleteButtons();
         updateMovementDeleteButtons();
-        document.querySelector('#login-error').textContent = '';
-        document.querySelector('#page-title').focus({ preventScroll: true });
+        document.querySelector("#login-error").textContent = "";
+        document.querySelector("#page-title").focus({ preventScroll: true });
       });
 
-      document.querySelector('#print-movements').addEventListener('click', printMovementRange);
+      document
+        .querySelector("#print-movements")
+        .addEventListener("click", printMovementRange);
 
-      document.querySelector('#logout-button').addEventListener('click', signOut);
+      document
+        .querySelector("#logout-button")
+        .addEventListener("click", signOut);
 
-      document.querySelector('#worker-form').addEventListener('submit', event => {
-        event.preventDefault();
-        if (currentUser?.role !== 'admin') return;
-        const form = event.currentTarget;
-        const formData = new FormData(form);
-        const name = String(formData.get('name')).trim();
-        const username = String(formData.get('username')).trim();
-        const password = String(formData.get('password'));
-        const modules = formData.getAll('modules').map(String);
-        if (!name || !username || !password || modules.length === 0) {
-          alert('Completa los datos y selecciona al menos un módulo.');
-          return;
-        }
-        if (USERS.some(user => user.username.toLowerCase() === username.toLowerCase())) {
-          alert('Ese nombre de usuario ya está registrado.');
-          return;
-        }
-        USERS.push({ id: `worker-${Date.now()}`, name, username, password, role: 'worker', modules });
-        form.reset();
-        renderWorkers();
+      document
+        .querySelector("#worker-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (currentUser?.role !== "admin") return;
+          const form = event.currentTarget;
+          const formData = new FormData(form);
+          const name = String(formData.get("name")).trim();
+          const username = String(formData.get("username")).trim();
+          const password = String(formData.get("password"));
+          const modules = formData.getAll("modules").map(String);
+          if (!name || !username || !password || modules.length === 0) {
+            alert("Completa los datos y selecciona al menos un módulo.");
+            return;
+          }
+          if (
+            USERS.some(
+              (user) => user.username.toLowerCase() === username.toLowerCase(),
+            )
+          ) {
+            alert("Ese nombre de usuario ya está registrado.");
+            return;
+          }
+          USERS.push({
+            id: `worker-${Date.now()}`,
+            name,
+            username,
+            password,
+            role: "worker",
+            modules,
+          });
+          form.reset();
+          renderWorkers();
+          savePersistentData();
+        });
+
+      document
+        .querySelector("#worker-rows")
+        .addEventListener("change", (event) => {
+          const checkbox = event.target.closest("[data-worker-module]");
+          if (!checkbox || currentUser?.role !== "admin") return;
+          const worker = USERS.find(
+            (user) => user.id === checkbox.dataset.workerId,
+          );
+          if (!worker) return;
+          if (!checkbox.checked && worker.modules.length === 1) {
+            checkbox.checked = true;
+            alert("Cada trabajador debe tener al menos un módulo autorizado.");
+            return;
+          }
+          worker.modules = checkbox.checked
+            ? [...new Set([...worker.modules, checkbox.dataset.workerModule])]
+            : worker.modules.filter(
+                (module) => module !== checkbox.dataset.workerModule,
+              );
+          savePersistentData();
+        });
+
+      document
+        .querySelector("#worker-rows")
+        .addEventListener("click", (event) => {
+          const button = event.target.closest("[data-remove-worker]");
+          if (!button || currentUser?.role !== "admin") return;
+          const index = USERS.findIndex(
+            (user) =>
+              user.id === button.dataset.removeWorker && user.role === "worker",
+          );
+          if (index !== -1) USERS.splice(index, 1);
+          renderWorkers();
+          savePersistentData();
+        });
+
+      document
+        .querySelector("#bulk-import-products")
+        .addEventListener("click", openBulkProductImport);
+
+      document.addEventListener(
+        "click",
+        (event) => {
+          if (!currentUser) return;
+          const movementDeleteButton = event.target.closest(
+            "[data-delete-movement]",
+          );
+          if (movementDeleteButton) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            if (currentUser.role !== "admin") return;
+            const movement = data.movements.find(
+              (item) => item.id === movementDeleteButton.dataset.deleteMovement,
+            );
+            if (
+              !movement ||
+              !confirm("¿Eliminar definitivamente este movimiento?")
+            )
+              return;
+            data.movements = data.movements.filter(
+              (item) => item.id !== movement.id,
+            );
+            render();
+            toast("Movimiento eliminado.");
+            return;
+          }
+          const actionTrigger = event.target.closest(
+            "[data-action], #new-invoice, #print-movements",
+          );
+          const actionModules = {
+            "new-product": "inventory",
+            "bulk-import-products": "inventory",
+            "product-menu": "inventory",
+            "new-movement": "movements",
+            "new-sale": "sales",
+            "new-expense": "reports",
+            "add-invoice-line": "reports",
+            "remove-invoice-line": "reports",
+            "print-invoice": "sales",
+          };
+          const requiredModule = actionModules[actionTrigger?.dataset.action];
+          if (requiredModule && !hasModuleAccess(requiredModule)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+          }
+          if (
+            actionTrigger?.id === "new-invoice" &&
+            !hasModuleAccess("sales")
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+          }
+          if (
+            actionTrigger?.id === "print-movements" &&
+            !hasModuleAccess("movements")
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+          }
+          const viewTrigger = event.target.closest("[data-view]");
+          if (!viewTrigger) return;
+          const requestedModule = viewTrigger.dataset.view;
+          if (
+            requestedModule === "admin"
+              ? currentUser.role !== "admin"
+              : !hasModuleAccess(requestedModule)
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            showSessionView(
+              currentUser.role === "admin"
+                ? "dashboard"
+                : currentUser.modules[0],
+            );
+          }
+        },
+        true,
+      );
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => pullFromCloud().finally(restorePersistentData),
+        { once: true },
+      );
+      window.addEventListener("pagehide", pushToCloud);
+
+      document.querySelector("#export-backup").addEventListener("click", () => {
         savePersistentData();
+        const content = localStorage.getItem(STORAGE_KEY) || "{}";
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(
+          new Blob([content], { type: "application/json" }),
+        );
+        link.download = `neyra-respaldo-${new Date().toISOString().slice(0, 10)}.json`;
+        link.click();
+        URL.revokeObjectURL(link.href);
       });
 
-      document.querySelector('#worker-rows').addEventListener('change', event => {
-        const checkbox = event.target.closest('[data-worker-module]');
-        if (!checkbox || currentUser?.role !== 'admin') return;
-        const worker = USERS.find(user => user.id === checkbox.dataset.workerId);
-        if (!worker) return;
-        if (!checkbox.checked && worker.modules.length === 1) {
-          checkbox.checked = true;
-          alert('Cada trabajador debe tener al menos un módulo autorizado.');
-          return;
+      const importFile = document.querySelector("#import-file");
+      document
+        .querySelector("#import-backup")
+        .addEventListener("click", () => importFile.click());
+      importFile.addEventListener("change", async () => {
+        const file = importFile.files[0];
+        importFile.value = "";
+        if (!file) return;
+        try {
+          const parsed = JSON.parse(await file.text());
+          if (!parsed || !Array.isArray(parsed.products)) throw new Error();
+          if (
+            !confirm(
+              "Esto reemplazará los datos de este dispositivo con los del respaldo. ¿Continuar?",
+            )
+          )
+            return;
+          persistenceReady = false;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+          location.reload();
+        } catch {
+          alert("El archivo no es un respaldo válido.");
         }
-        worker.modules = checkbox.checked
-          ? [...new Set([...worker.modules, checkbox.dataset.workerModule])]
-          : worker.modules.filter(module => module !== checkbox.dataset.workerModule);
-        savePersistentData();
       });
-
-      document.querySelector('#worker-rows').addEventListener('click', event => {
-        const button = event.target.closest('[data-remove-worker]');
-        if (!button || currentUser?.role !== 'admin') return;
-        const index = USERS.findIndex(user => user.id === button.dataset.removeWorker && user.role === 'worker');
-        if (index !== -1) USERS.splice(index, 1);
-        renderWorkers();
-        savePersistentData();
-      });
-
-      document.querySelector('#bulk-import-products').addEventListener('click', openBulkProductImport);
-
-      document.addEventListener('click', event => {
-        if (!currentUser) return;
-        const movementDeleteButton = event.target.closest('[data-delete-movement]');
-        if (movementDeleteButton) {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          if (currentUser.role !== 'admin') return;
-          const movement = data.movements.find(item => item.id === movementDeleteButton.dataset.deleteMovement);
-          if (!movement || !confirm('¿Eliminar definitivamente este movimiento?')) return;
-          data.movements = data.movements.filter(item => item.id !== movement.id);
-          render();
-          toast('Movimiento eliminado.');
-          return;
-        }
-        const actionTrigger = event.target.closest('[data-action], #new-invoice, #print-movements');
-        const actionModules = {
-          'new-product': 'inventory',
-            'bulk-import-products': 'inventory',
-          'product-menu': 'inventory',
-          'new-movement': 'movements',
-          'new-sale': 'sales',
-          'new-expense': 'reports',
-          'add-invoice-line': 'reports',
-          'remove-invoice-line': 'reports',
-          'print-invoice': 'sales'
-        };
-        const requiredModule = actionModules[actionTrigger?.dataset.action];
-        if (requiredModule && !hasModuleAccess(requiredModule)) {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          return;
-        }
-        if (actionTrigger?.id === 'new-invoice' && !hasModuleAccess('sales')) {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          return;
-        }
-        if (actionTrigger?.id === 'print-movements' && !hasModuleAccess('movements')) {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          return;
-        }
-        const viewTrigger = event.target.closest('[data-view]');
-        if (!viewTrigger) return;
-        const requestedModule = viewTrigger.dataset.view;
-        if (requestedModule === 'admin' ? currentUser.role !== 'admin' : !hasModuleAccess(requestedModule)) {
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          showSessionView(currentUser.role === 'admin' ? 'dashboard' : currentUser.modules[0]);
-        }
-      }, true);
-
-      document.addEventListener('DOMContentLoaded', restorePersistentData, { once: true });
     </script>
   </body>
-  </html>
+</html>
